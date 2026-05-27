@@ -42,17 +42,18 @@
 
 # Futura version 1.1
 
+- Agregar Login con JWT
+- Agregar la funcion de cargar imagenes de cada producto.
+- Agregar la funcion de seleccionar un minimo de stock de cada producto (si el producto llega a ese minimo, la app lo tiene que notificar)
+
+# Futura version 1.2
+
 - ✅ Agregar un motor de busqueda en la pantalla de Stock
 - Solucionar el formato del boton de eliminar dentro de la pantalla de Stock
 - Que la pantalla de Stock se actualice al volver a esta
-- Agregar el tema de las imagenes, que se puedan cargar fotos de cada Producto
 
-# Futura version 1.2
+# Futura version 1.3
 
 - Agregar el escaneo del codigo de barra de productos, por medio de la camara
 
 # Info
-
-- ✅ Para el boton de atras, se puede desactivar y activar mediante un navigation.options({leftHeader: false}) o algo asi , lo mismo con el titulo y eso.
-- ✅ Tambien para poner el boton de editar en el header se hace con un options.header(rightHeader: bottonEdit o algo asi)
-- - ✅ Para el boton de eliminar tengo que chusmear la dependencia react-native-swipeable de npm

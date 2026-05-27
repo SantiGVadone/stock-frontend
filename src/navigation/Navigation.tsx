@@ -4,9 +4,16 @@ import { Stock } from '../navigation/screens/Stock'
 import { ProductDetail } from './screens/ProductDetail'
 import { AddProduct } from './screens/AddProduct'
 import { EditProduct } from './screens/EditProduct'
+import { Login } from './screens/Login'
 
 const RootStack = createNativeStackNavigator({
   screens: {
+    Login: {
+      screen: Login,
+      options: {
+        headerShown: false,
+      },
+    },
     Stock: {
       screen: Stock,
       options: {
