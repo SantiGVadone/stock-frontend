@@ -104,7 +104,12 @@ export function Stock() {
               navigation.navigate('AddProduct')
             }}
           >
-            <Text style={styles.addButtonText}>+</Text>
+            <AntDesign
+              name='plus'
+              size={40}
+              color='white'
+              style={styles.addButtonIcon}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -190,12 +195,8 @@ const styles = StyleSheet.create({
     borderRadius: 99999,
     elevation: 3,
   },
-  addButtonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 48,
-    marginVertical: 0,
-    marginHorizontal: 20,
+  addButtonIcon: {
+    margin: 10,
   },
   deleteBotton: {
     backgroundColor: COLORS.red,
