@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Text,
   View,
@@ -5,140 +6,73 @@ import {
   StyleSheet,
   TextInput,
   KeyboardAvoidingView,
+  StatusBar,
 } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useNavigation } from '@react-navigation/native'
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 export function Login() {
   const navigation = useNavigation<any>()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = () => {
+    // aca voy a enviar los datos de email y password al backend
+    // espero resivir un token para guardar
+    // si el login es exitoso hago un navigation.navigate('Stock')
+    // si el login falla, osea que recibo un error del backend, muestro un mensaje de error al usuario
+    navigation.navigate('Stock')
+  }
+
   return (
     <SafeAreaView style={styles.fondo}>
-      <KeyboardAvoidingView
-        style={{ flex: 1, height: '100%', overflow: 'scroll' }}
-      >
-        <View
-          style={{
-            display: 'flex',
-            width: '100%',
-            height: '100%',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          <View>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 55,
-                fontWeight: 700,
-                margin: 10,
-                marginBottom: 0,
-                padding: 0,
-                textAlign: 'center',
-              }}
-            >
-              Welcome
-            </Text>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 30,
-                fontWeight: 700,
-                margin: 0,
-                padding: 0,
-                textAlign: 'center',
-              }}
-            >
-              to StockApp
-            </Text>
+      <StatusBar barStyle={'dark-content'} />
+      <TouchableOpacity style={styles.back} onPress={() => {}}>
+        <Ionicons name='arrow-back' size={30} color='black' />
+      </TouchableOpacity>
+      <View>
+        <Text style={styles.welcome}>Inicio de Sesion</Text>
+      </View>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.form}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder='Email'
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
+            />
+
+            <View>
+              <TextInput
+                placeholder='Contraseña'
+                style={styles.input}
+                secureTextEntry={true}
+                onChangeText={(text) => setPassword(text)}
+              />
+              <Text style={styles.forgot}>¿Olvidaste tu contraseña?</Text>
+            </View>
           </View>
 
-          <View
-            style={{
-              display: 'flex',
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <TextInput
-              placeholder='User'
-              autoCorrect={false}
-              showSoftInputOnFocus={true}
-              style={{
-                height: 'auto',
-                margin: 8,
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                fontSize: 20,
-                maxWidth: '75%',
-                minWidth: 100,
-                overflow: 'scroll',
-                borderRadius: 35,
-              }}
-              onChangeText={() => {}}
-            />
-            <TextInput
-              placeholder='PassWord'
-              autoCorrect={false}
-              showSoftInputOnFocus={true}
-              style={{
-                height: 'auto',
-                margin: 8,
-                borderBottomWidth: 1,
-                textAlign: 'center',
-                fontSize: 20,
-                maxWidth: '75%',
-                minWidth: 100,
-                overflow: 'scroll',
-                borderRadius: 35,
-              }}
-              onChangeText={() => {}}
-            />
-          </View>
-
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 10,
-            }}
-          >
+          <View style={styles.buttonContainer}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Stock')
+                handleLogin()
               }}
-              style={{
-                margin: 0,
-                backgroundColor: '#09f',
-                alignSelf: 'center',
-                padding: 15,
-                borderRadius: 35,
-              }}
+              style={styles.button}
             >
-              <Text style={{ color: 'white', fontSize: 20, fontWeight: 700 }}>
-                Login
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Stock')
-              }}
-              style={{
-                margin: 0,
-                backgroundColor: '#09f',
-                alignSelf: 'center',
-                padding: 15,
-                borderRadius: 35,
-              }}
-            >
-              <Text style={{ color: 'white', fontSize: 20, fontWeight: 700 }}>
-                Register
-              </Text>
+              <Text style={styles.buttonText}>Ingresar</Text>
             </TouchableOpacity>
           </View>
         </View>
+        <Text
+          style={styles.register}
+          onPress={() => {
+            navigation.navigate('Register')
+          }}
+        >
+          ¿No tenes una cuenta?
+        </Text>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
@@ -146,10 +80,92 @@ export function Login() {
 
 const styles = StyleSheet.create({
   fondo: {
-    display: 'flex',
+    flex: 1,
     width: '100%',
     height: '100%',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'white',
+  },
+  back: {
+    margin: 10,
+  },
+  container: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'space-evenly',
+    alignItems: 'center',
+    overflow: 'scroll',
+  },
+  welcome: {
+    color: 'black',
+    fontSize: 35,
+    fontWeight: 600,
+    margin: 10,
+    marginBottom: 0,
+    padding: 0,
+    textAlign: 'center',
+    fontFamily: 'Arial',
+    textShadowColor: 'rgba(0, 0, 0, 0.1)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+  },
+  form: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  inputContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    gap: 15,
+  },
+  input: {
+    backgroundColor: 'white',
+    borderRadius: 35,
+    borderWidth: 1,
+    borderColor: 'gray',
+    maxWidth: '80%',
+    minWidth: '50%',
+    textAlign: 'center',
+    color: '#333333',
+    marginVertical: 5,
+    overflow: 'scroll',
+    elevation: 7,
+    fontSize: 17,
+    paddingHorizontal: 10,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: '#09f',
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 35,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 7,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 700,
+  },
+  forgot: {
+    color: 'gray',
+    textAlign: 'center',
+    fontSize: 12,
+    marginTop: 10,
+    textDecorationLine: 'underline',
+  },
+  register: {
+    fontSize: 15,
+    color: 'black',
+    textDecorationLine: 'underline',
+    textAlign: 'center',
+    marginBottom: 20,
   },
 })
