@@ -31,10 +31,9 @@ export function Register() {
   })
 
   const handleRegister = () => {
-    // aca voy a enviar los datos de email y password al backend
-    // espero resivir un token para guardar
-    // si el login es exitoso hago un navigation.navigate('Stock')
-    // si el login falla, osea que recibo un error del backend, muestro un mensaje de error al usuario
+    // aca voy a enviar todos los datos del usuario al backend para crear la cuenta
+    // si el registro es exitoso (osea que resivo un 200) hago un navigation.navigate('Login')
+    // si el registro no es exitoso, muestro un mensaje de error al usuario, ej: Email ya registrado
     navigation.navigate('Login')
   }
 
@@ -83,12 +82,11 @@ export function Register() {
               onChangeText={(text) => setUser({ ...user, password: text })}
             />
           </View>
-          <Text style={styles.terms}>
-            Creando esta cuenta usted acepta los términos y condiciones de uso y
-            las políticas de privacidad
-          </Text>
-
           <View style={styles.buttonContainer}>
+            <Text style={styles.terms}>
+              Creando esta cuenta usted acepta los términos y condiciones de uso
+              y las políticas de privacidad
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 handleRegister()
@@ -194,7 +192,7 @@ const styles = StyleSheet.create({
     color: 'gray',
     textAlign: 'center',
     fontSize: 12,
-    marginTop: 5,
+    marginBottom: 15,
   },
   register: {
     fontSize: 15,

@@ -19,6 +19,7 @@ export function Login() {
 
   const handleLogin = () => {
     // aca voy a enviar los datos de email y password al backend
+    // const response = await fetch('https://vadonedev.com.ar/api/login')
     // espero resivir un token para guardar
     // si el login es exitoso hago un navigation.navigate('Stock')
     // si el login falla, osea que recibo un error del backend, muestro un mensaje de error al usuario
