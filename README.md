@@ -3,6 +3,7 @@
 > [!NOTE]
 > Esta APP esta echa con fines educativos y de practica
 > La app actualmente esta en la version BETA, ya que faltan unos pasos para tener la v 1.0
+> El repositorio del Back-End es: https://github.com/santigvadone/stock-backend
 
 # TO DO (menos importante)
 
@@ -56,4 +57,10 @@
 
 - Agregar el escaneo del codigo de barra de productos, por medio de la camara
 
-# Info
+# Feats no tan importantes
+
+- Que la SearchBar este un poco mas abajo
+- Agregar una animation a la SearchBar para que se Expanda y se Comprima
+- Cambiar las pestañas de CreateProduct y de EditProduct
+- Agregar un Label para cada Input en la pantalla de Login
+- Agregar boton para hacer visible la contraseña
