@@ -11,19 +11,48 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { guardarToken, obtenerToken } from '../../utility/auth'
 
 export function Login() {
   const navigation = useNavigation<any>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // aca voy a enviar los datos de email y password al backend
     // const response = await fetch('https://vadonedev.com.ar/api/login')
+    try {
+      const response = await fetch(
+        'https://api.vadonedev.com.ar/api/auth/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        },
+      )
+
+      if (!response.ok) {
+        throw new Error('Error en la peticion de login')
+      }
+
+      const data = await response.json()
+      console.log(data)
+      guardarToken(data.token)
+      // const token = obtenerToken()
+      // console.log(token)
+      navigation.navigate('Stock')
+    } catch (error) {
+      console.error('hubo un error en el login', error)
+    }
     // espero resivir un token para guardar
     // si el login es exitoso hago un navigation.navigate('Stock')
     // si el login falla, osea que recibo un error del backend, muestro un mensaje de error al usuario
-    navigation.navigate('Stock')
   }
 
   return (

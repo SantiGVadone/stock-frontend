@@ -41,19 +41,39 @@
 
 - CREAR la primera APK para android
 
+# Futuras tareas (8/6/26)
+
+- LoginPage:
+  - Hacer que el login haga la peticion HTTP
+  - Guardar el Token
+  - Seleccionar una tienda de las que devuelve la peticion de login
+  - Poner el ID de esa tienda en el x-store-id
+  - Si el usuario se logeo correctamente, en un useContext se tiene que guardar:
+    - Si esta logeado
+    - En que tienda esta logeado
+    - A que tiendas tiene acceso
+    - Data del usuario: nombre y todo eso
+- RegisterPage:
+  - Hacer que el register haga la peticion HTTP
+  - Si salio bien redirigir a la LoginPage
+- Agregar el icono de Usuario en la pantalla principal
+  - Donde quiero que se pueda invitar a un empleado (en caso de ser JEFE)
+  - Quiero que se pueda renunciar
+  - Quiero que se pueda cambiar de tienda
+
 # Futura version 1.1
 
 - Agregar Login con JWT
 - Agregar la funcion de cargar imagenes de cada producto.
 - Agregar la funcion de seleccionar un minimo de stock de cada producto (si el producto llega a ese minimo, la app lo tiene que notificar)
 
-# Futura version 1.2
+# Futura version 1.1.1
 
 - ✅ Agregar un motor de busqueda en la pantalla de Stock
 - Solucionar el formato del boton de eliminar dentro de la pantalla de Stock
 - Que la pantalla de Stock se actualice al volver a esta
 
-# Futura version 1.3
+# Futura version 2.0
 
 - Agregar el escaneo del codigo de barra de productos, por medio de la camara
 
