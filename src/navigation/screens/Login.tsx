@@ -42,10 +42,9 @@ export function Login() {
       }
 
       const data = await response.json()
-      console.log(data)
       guardarToken(data.token)
-      // const token = obtenerToken()
-      // console.log(token)
+      const token = await obtenerToken()
+      console.log(token)
       navigation.navigate('Stock')
     } catch (error) {
       console.error('hubo un error en el login', error)

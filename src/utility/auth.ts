@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store'
-const TOKEN_KEY = process.env.JWT_SECRET
+const TOKEN_KEY = 'user_session_token'
 
 export const guardarToken = async (token: string) => {
   try {

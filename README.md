@@ -84,3 +84,12 @@
 - Cambiar las pestañas de CreateProduct y de EditProduct
 - Agregar un Label para cada Input en la pantalla de Login
 - Agregar boton para hacer visible la contraseña
+
+# Fura V1.4
+
+- Se tiene que poder gestionar las tiendas
+- Login
+- useContext para el login
+- useContext para la tienda seleccionada
+- poder cambiar de tinda
+- poder gestionar la cuenta (eliminar, cerrar sesion)
