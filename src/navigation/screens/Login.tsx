@@ -48,6 +48,7 @@ export function Login() {
       navigation.navigate('Stock')
     } catch (error) {
       console.error('hubo un error en el login', error)
+      // aca tiene que ir un toasmessage
     }
     // espero resivir un token para guardar
     // si el login es exitoso hago un navigation.navigate('Stock')
