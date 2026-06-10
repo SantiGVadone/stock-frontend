@@ -44,8 +44,8 @@
 # Futuras tareas (8/6/26)
 
 - LoginPage:
-  - Hacer que el login haga la peticion HTTP
-  - Guardar el Token
+  - ✅ Hacer que el login haga la peticion HTTP
+  - ✅ Guardar el Token
   - Seleccionar una tienda de las que devuelve la peticion de login
   - Poner el ID de esa tienda en el x-store-id
   - Si el usuario se logeo correctamente, en un useContext se tiene que guardar:
@@ -63,7 +63,7 @@
 
 # Futura version 1.1
 
-- Agregar Login con JWT
+- ✅ Agregar Login con JWT
 - Agregar la funcion de cargar imagenes de cada producto.
 - Agregar la funcion de seleccionar un minimo de stock de cada producto (si el producto llega a ese minimo, la app lo tiene que notificar)
 
