@@ -2,21 +2,69 @@ import { useState } from 'react'
 import {
   Text,
   View,
+  TextInput,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
+  Image,
   KeyboardAvoidingView,
-  StatusBar,
+  ScrollView,
+  Platform,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { guardarToken, obtenerToken } from '../../utility/auth'
+
+import { Ionicons } from '@expo/vector-icons'
+
+const CustomInput = ({
+  label,
+  icon,
+  value,
+  onChangeText,
+  isPassword = false,
+  placeholder,
+}: any) => {
+  const [showPassword, setShowPassword] = useState(false)
+
+  return (
+    <View style={styles.inputGroup}>
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name={icon as any}
+          size={20}
+          color='#666'
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={isPassword && !showPassword}
+          autoCapitalize='none'
+        />
+        {isPassword && (
+          <TouchableOpacity
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.eyeIcon}
+          >
+            <Ionicons
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={20}
+              color='#666'
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  )
+}
 
 export function Login() {
   const navigation = useNavigation<any>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleLogin = async () => {
     // aca voy a enviar los datos de email y password al backend
@@ -56,146 +104,114 @@ export function Login() {
   }
 
   return (
-    <SafeAreaView style={styles.fondo}>
-      <StatusBar barStyle={'dark-content'} />
-      <TouchableOpacity style={styles.back} onPress={() => {}}>
-        <Ionicons name='arrow-back' size={30} color='black' />
-      </TouchableOpacity>
-      <View>
-        <Text style={styles.welcome}>Inicio de Sesion</Text>
-      </View>
-      <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.form}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder='Email'
-              style={styles.input}
-              onChangeText={(text) => setEmail(text)}
-            />
-
-            <View>
-              <TextInput
-                placeholder='Contraseña'
-                style={styles.input}
-                secureTextEntry={true}
-                onChangeText={(text) => setPassword(text)}
-              />
-              <Text style={styles.forgot}>¿Olvidaste tu contraseña?</Text>
-            </View>
-          </View>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                handleLogin()
-              }}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Ingresar</Text>
-            </TouchableOpacity>
-          </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.logoContainer}>
+          <Image
+            source={{ uri: '{{DATA:IMAGE:IMAGE_38}}' }} // Logo Pro
+            style={styles.logo}
+            resizeMode='contain'
+          />
+          <Text style={styles.brandName}>StockPro</Text>
         </View>
-        <Text
-          style={styles.register}
-          onPress={() => {
-            navigation.navigate('Register')
-          }}
-        >
-          ¿No tenes una cuenta?
-        </Text>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+
+        <View style={styles.card}>
+          <Text style={styles.welcomeText}>Bienvenido de nuevo</Text>
+          <Text style={styles.subText}>Gestión de stock inteligente</Text>
+
+          <CustomInput
+            label='Email'
+            icon='mail-outline'
+            placeholder='ejemplo@empresa.com'
+            value={email}
+            onChangeText={setEmail}
+          />
+
+          <CustomInput
+            label='Password'
+            icon='lock-closed-outline'
+            placeholder='••••••••'
+            value={password}
+            onChangeText={setPassword}
+            isPassword
+          />
+
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            <Text style={styles.loginButtonText}>
+              {loading ? 'Cargando...' : 'Ingresar'}
+            </Text>
+            {!loading && (
+              <Ionicons name='arrow-forward' size={20} color='#FFF' />
+            )}
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
-  fondo: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white',
-  },
-  back: {
-    margin: 10,
-  },
-  container: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    overflow: 'scroll',
-  },
-  welcome: {
-    color: 'black',
-    fontSize: 35,
-    fontWeight: 600,
-    margin: 10,
-    marginBottom: 0,
-    padding: 0,
+  container: { flex: 1, backgroundColor: '#FAF9FE' },
+  scrollContainer: { flexGrow: 1, padding: 24, justifyContent: 'center' },
+  logoContainer: { alignItems: 'center', marginBottom: 32 },
+  logo: { width: 100, height: 100 },
+  brandName: { fontSize: 28, fontWeight: 'bold', color: '#000', marginTop: 8 },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: '700',
     textAlign: 'center',
-    fontFamily: 'Arial',
-    textShadowColor: 'rgba(0, 0, 0, 0.1)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
+    color: '#1A1A1A',
   },
-  form: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
+  subText: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 32,
+    marginTop: 4,
   },
+  card: {
+    backgroundColor: '#FFF',
+    borderRadius: 24,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  inputGroup: { marginBottom: 20 },
+  label: { fontSize: 14, fontWeight: '600', color: '#444', marginBottom: 8 },
   inputContainer: {
-    width: '100%',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
-    gap: 15,
-  },
-  input: {
-    backgroundColor: 'white',
-    borderRadius: 35,
+    backgroundColor: '#F5F6F8',
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'gray',
-    maxWidth: '80%',
-    minWidth: '50%',
-    textAlign: 'center',
-    color: '#333333',
-    marginVertical: 5,
-    overflow: 'scroll',
-    elevation: 7,
-    fontSize: 17,
-    paddingHorizontal: 10,
+    borderColor: '#E0E0E0',
+    paddingHorizontal: 12,
   },
-  buttonContainer: {
+  icon: { marginRight: 10 },
+  input: { flex: 1, height: 48, fontSize: 16, color: '#1A1A1A' },
+  eyeIcon: { padding: 8 },
+  loginButton: {
+    backgroundColor: '#0061D9',
+    borderRadius: 12,
+    height: 56,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: '#09f',
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 35,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 7,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 700,
-  },
-  forgot: {
-    color: 'gray',
-    textAlign: 'center',
-    fontSize: 12,
+    gap: 8,
     marginTop: 10,
-    textDecorationLine: 'underline',
   },
-  register: {
-    fontSize: 15,
-    color: 'black',
-    textDecorationLine: 'underline',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
+  loginButtonText: { color: '#FFF', fontSize: 18, fontWeight: 'bold' },
 })
