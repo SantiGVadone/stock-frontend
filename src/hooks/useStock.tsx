@@ -1,6 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
 
+import { guardarToken, obtenerToken } from '../utility/auth'
+const API_URL = 'https://api.vadonedev.com.ar/api'
+// santiagogabrielvadone@outlook.com
+// santicapo2003
+
 interface Product {
   id: number
   name: string
@@ -22,10 +27,54 @@ export const useStock = () => {
   const [error, setError] = useState<string | null>(null)
   const navigation = useNavigation<any>()
 
+  const login= async (email: string, password:string) => {
+    try{
+      setLoading(true)
+      const response = await fetch(
+              `${API_URL}/auth/login`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                },
+                body: JSON.stringify({
+                  email: email,
+                  password: password,
+                }),
+              },
+            )
+      
+            if (!response.ok) {
+              throw new Error('Error en la peticion de login')
+            }
+      
+            const data = await response.json()
+            guardarToken(data.token)
+            const token = await obtenerToken()
+            console.log(token)
+            setLoading(false)
+            navigation.navigate('Stock')
+    }catch(err: any){
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const fetchStock = async () => {
     try {
       setLoading(true)
-      const response = await fetch('http://192.168.1.39:3000/api/products')
+      const token= obtenerToken()   
+      const response = await fetch(`${API_URL}/products`,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+           Accept: 'application/json',
+           'Authorization': `Bearer ${token}`,
+           },
+           body: JSON.stringify({}),
+      })
       if (!response.ok) throw new Error('Error al conectar con el servidor')
 
       const data = await response.json()
@@ -46,7 +95,7 @@ export const useStock = () => {
     try {
       setLoading(true)
       const response = await fetch(
-        `http://192.168.1.39:3000/api/products/${id}`,
+         `${API_URL}'/products'/${id}`,
         {
           method: 'DELETE',
           headers: {
@@ -73,10 +122,13 @@ export const useStock = () => {
     }
     try {
       setLoading(true)
-      const response = await fetch('http://192.168.1.39:3000/api/products', {
+      const token = await obtenerToken()
+      const response = await fetch(`${API_URL}/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+              Accept: 'application/json',
+           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: product.name,
@@ -85,7 +137,6 @@ export const useStock = () => {
           category: product.category,
         }),
       })
-
       if (!response.ok) {
         const errorDetail = await response.json()
         console.log('Error al guardar en la base de datos', errorDetail)
@@ -133,6 +184,7 @@ export const useStock = () => {
   }
 
   return {
+    login,
     stock,
     loading,
     error,

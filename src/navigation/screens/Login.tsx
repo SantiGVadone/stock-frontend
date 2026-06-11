@@ -2,98 +2,30 @@ import { useState } from 'react'
 import {
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   Image,
   KeyboardAvoidingView,
   ScrollView,
-  Platform,
 } from 'react-native'
+import {CustomInput} from '../../components/CustomInput'
 import { useNavigation } from '@react-navigation/native'
-import { guardarToken, obtenerToken } from '../../utility/auth'
 
 import { Ionicons } from '@expo/vector-icons'
+import { useStock } from '../../hooks/useStock'
 
-const CustomInput = ({
-  label,
-  icon,
-  value,
-  onChangeText,
-  isPassword = false,
-  placeholder,
-}: any) => {
-  const [showPassword, setShowPassword] = useState(false)
-
-  return (
-    <View style={styles.inputGroup}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.inputContainer}>
-        <Ionicons
-          name={icon as any}
-          size={20}
-          color='#666'
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          secureTextEntry={isPassword && !showPassword}
-          autoCapitalize='none'
-        />
-        {isPassword && (
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-            style={styles.eyeIcon}
-          >
-            <Ionicons
-              name={showPassword ? 'eye-off' : 'eye'}
-              size={20}
-              color='#666'
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-    </View>
-  )
-}
 
 export function Login() {
   const navigation = useNavigation<any>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const {login, loading} = useStock() 
 
   const handleLogin = async () => {
     // aca voy a enviar los datos de email y password al backend
     // const response = await fetch('https://vadonedev.com.ar/api/login')
     try {
-      const response = await fetch(
-        'https://api.vadonedev.com.ar/api/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-          }),
-        },
-      )
-
-      if (!response.ok) {
-        throw new Error('Error en la peticion de login')
-      }
-
-      const data = await response.json()
-      guardarToken(data.token)
-      const token = await obtenerToken()
-      console.log(token)
-      navigation.navigate('Stock')
+      login(email, password)
     } catch (error) {
       console.error('hubo un error en el login', error)
       // aca tiene que ir un toasmessage
@@ -105,7 +37,6 @@ export function Login() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
       <ScrollView
@@ -119,16 +50,17 @@ export function Login() {
             resizeMode='contain'
           />
           <Text style={styles.brandName}>StockPro</Text>
+          <Text style={styles.subText}>Gestión de stock inteligente</Text>
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.welcomeText}>Bienvenido de nuevo</Text>
-          <Text style={styles.subText}>Gestión de stock inteligente</Text>
+          <Text style={styles.welcomeText}>Iniciar Sesion</Text>
+          
 
           <CustomInput
             label='Email'
             icon='mail-outline'
-            placeholder='ejemplo@empresa.com'
+            placeholder='ejemplo@email.com'
             value={email}
             onChangeText={setEmail}
           />
@@ -136,7 +68,7 @@ export function Login() {
           <CustomInput
             label='Password'
             icon='lock-closed-outline'
-            placeholder='••••••••'
+            placeholder='••••••••••••••••'
             value={password}
             onChangeText={setPassword}
             isPassword
@@ -144,7 +76,7 @@ export function Login() {
 
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={handleLogin}
+            onPress={()=> {handleLogin()}}
             disabled={loading}
           >
             <Text style={styles.loginButtonText}>
@@ -154,6 +86,10 @@ export function Login() {
               <Ionicons name='arrow-forward' size={20} color='#FFF' />
             )}
           </TouchableOpacity>
+            
+          <Text style={{alignSelf: 'center', marginTop: 10, textDecorationLine: 'underline', color: '#666'}} onPress={ () => {navigation.navigate('Register')}}>
+            ¿No estas registrado?
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -171,12 +107,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     color: '#1A1A1A',
+    marginBottom: 30,
   },
   subText: {
     fontSize: 14,
     color: '#666',
     textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: 4,
     marginTop: 4,
   },
   card: {
@@ -189,20 +126,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  inputGroup: { marginBottom: 20 },
-  label: { fontSize: 14, fontWeight: '600', color: '#444', marginBottom: 8 },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F5F6F8',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
-    paddingHorizontal: 12,
-  },
-  icon: { marginRight: 10 },
-  input: { flex: 1, height: 48, fontSize: 16, color: '#1A1A1A' },
-  eyeIcon: { padding: 8 },
+  
   loginButton: {
     backgroundColor: '#0061D9',
     borderRadius: 12,
