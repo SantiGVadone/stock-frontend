@@ -2,7 +2,8 @@ import { useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
 
 import { guardarToken, obtenerToken } from '../utility/auth'
-const API_URL = 'https://api.vadonedev.com.ar/api'
+// const API_URL = 'https://api.vadonedev.com.ar/api'
+const API_URL = 'http://localhost:3000/api'
 // santiagogabrielvadone@outlook.com
 // santicapo2003
 
@@ -27,35 +28,32 @@ export const useStock = () => {
   const [error, setError] = useState<string | null>(null)
   const navigation = useNavigation<any>()
 
-  const login= async (email: string, password:string) => {
-    try{
+  const login = async (email: string, password: string) => {
+    try {
       setLoading(true)
-      const response = await fetch(
-              `${API_URL}/auth/login`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Accept: 'application/json',
-                },
-                body: JSON.stringify({
-                  email: email,
-                  password: password,
-                }),
-              },
-            )
-      
-            if (!response.ok) {
-              throw new Error('Error en la peticion de login')
-            }
-      
-            const data = await response.json()
-            guardarToken(data.token)
-            const token = await obtenerToken()
-            console.log(token)
-            setLoading(false)
-            navigation.navigate('Stock')
-    }catch(err: any){
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Error en la peticion de login')
+      }
+
+      const data = await response.json()
+      guardarToken(data.token)
+      const token = await obtenerToken()
+      console.log(token)
+      setLoading(false)
+      navigation.navigate('Stock')
+    } catch (err: any) {
       setError(err.message)
     } finally {
       setLoading(false)
@@ -65,15 +63,15 @@ export const useStock = () => {
   const fetchStock = async () => {
     try {
       setLoading(true)
-      const token= obtenerToken()   
-      const response = await fetch(`${API_URL}/products`,{
+      const token = obtenerToken()
+      const response = await fetch(`${API_URL}/products`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-           Accept: 'application/json',
-           'Authorization': `Bearer ${token}`,
-           },
-           body: JSON.stringify({}),
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'x-store-id': '8',
+        },
       })
       if (!response.ok) throw new Error('Error al conectar con el servidor')
 
@@ -94,16 +92,13 @@ export const useStock = () => {
   const removeProduct = async (id: number) => {
     try {
       setLoading(true)
-      const response = await fetch(
-         `${API_URL}'/products'/${id}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({}),
+      const response = await fetch(`${API_URL}'/products'/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({}),
+      })
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -127,8 +122,8 @@ export const useStock = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-              Accept: 'application/json',
-           'Authorization': `Bearer ${token}`,
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: product.name,

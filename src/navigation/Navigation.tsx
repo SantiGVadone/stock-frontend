@@ -1,6 +1,6 @@
 import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Stock } from '../navigation/screens/Stock'
+import { Stock } from './screens/Stock'
 import { ProductDetail } from './screens/ProductDetail'
 import { AddProduct } from './screens/AddProduct'
 import { EditProduct } from './screens/EditProduct'

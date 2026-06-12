@@ -8,18 +8,17 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native'
-import {CustomInput} from '../../components/CustomInput'
+import { CustomInput } from '../../components/CustomInput'
 import { useNavigation } from '@react-navigation/native'
 
 import { Ionicons } from '@expo/vector-icons'
 import { useStock } from '../../hooks/useStock'
 
-
 export function Login() {
   const navigation = useNavigation<any>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const {login, loading} = useStock() 
+  const { login, loading } = useStock()
 
   const handleLogin = async () => {
     // aca voy a enviar los datos de email y password al backend
@@ -36,9 +35,7 @@ export function Login() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-    >
+    <KeyboardAvoidingView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
@@ -55,7 +52,6 @@ export function Login() {
 
         <View style={styles.card}>
           <Text style={styles.welcomeText}>Iniciar Sesion</Text>
-          
 
           <CustomInput
             label='Email'
@@ -76,7 +72,9 @@ export function Login() {
 
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={()=> {handleLogin()}}
+            onPress={() => {
+              handleLogin()
+            }}
             disabled={loading}
           >
             <Text style={styles.loginButtonText}>
@@ -86,10 +84,40 @@ export function Login() {
               <Ionicons name='arrow-forward' size={20} color='#FFF' />
             )}
           </TouchableOpacity>
-            
-          <Text style={{alignSelf: 'center', marginTop: 10, textDecorationLine: 'underline', color: '#666'}} onPress={ () => {navigation.navigate('Register')}}>
-            ¿No estas registrado?
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              alignSelf: 'center',
+              gap: 7,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginTop: 10,
+                color: '#666',
+              }}
+              onPress={() => {
+                navigation.navigate('Register')
+              }}
+            >
+              ¿No tenes una cuenta?
+            </Text>
+
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginTop: 10,
+                color: '#0061D9',
+              }}
+              onPress={() => {
+                navigation.navigate('Register')
+              }}
+            >
+              Registrate
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -126,7 +154,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  
+
   loginButton: {
     backgroundColor: '#0061D9',
     borderRadius: 12,
