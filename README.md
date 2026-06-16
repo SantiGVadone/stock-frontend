@@ -85,7 +85,7 @@
 - Agregar un Label para cada Input en la pantalla de Login
 - Agregar boton para hacer visible la contraseña
 
-# Fura V1.4
+# Futura V1.4
 
 - Se tiene que poder gestionar las tiendas
 - Login
@@ -93,3 +93,11 @@
 - useContext para la tienda seleccionada
 - poder cambiar de tinda
 - poder gestionar la cuenta (eliminar, cerrar sesion)
+
+# Hoy 16/6/26
+
+- Hoy agregue la Filters Page, hay que acomodarla
+- Agregue la profile page, hay que acomodarla
+- ✅ Acomode la StockPage nueva
+- Tengo que ver bien el tema del contador del stockPage
+- ✅ Arregle el tema del setSearch en el textInput

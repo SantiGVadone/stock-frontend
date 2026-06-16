@@ -17,6 +17,7 @@ import { useStock } from '../../hooks/useStock'
 import COLORS from '../../constants/colors'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useNavigation } from '@react-navigation/native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 const { width } = Dimensions.get('window')
 
@@ -27,10 +28,6 @@ export function Stock() {
   const { stock, loading, removeProduct, refresh } = useStock()
   const [search, setSearch] = useState('')
 
-  if (search.length < 0) {
-    console.log('este es el stock: ', stock)
-  }
-  console.log(stock)
   const filteredProducts = stock.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase()),
   )
@@ -62,10 +59,15 @@ export function Stock() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaProvider style={styles.container}>
       {/* HEADER DINÁMICO */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.userButton}>
+        <TouchableOpacity
+          style={styles.userButton}
+          onPress={() => {
+            navigation.navigate('Profile')
+          }}
+        >
           <View style={{}}>
             <Ionicons name='person' size={24} color='#0061D9' />
           </View>
@@ -94,24 +96,32 @@ export function Stock() {
                 style={styles.searchInput}
                 placeholder='Buscar producto...'
                 autoFocus
+                onChangeText={(text) => setSearch(text)}
               />
             )}
           </Animated.View>
 
           {!isSearchExpanded && (
-            <TouchableOpacity style={styles.filterButton}>
+            <TouchableOpacity
+              style={styles.filterButton}
+              onPress={() => {
+                navigation.navigate('Filters')
+              }}
+            >
               <Ionicons name='filter-outline' size={24} color='#1A1A1A' />
             </TouchableOpacity>
           )}
         </View>
       </View>
 
-      {/* LISTA DE PRODUCTOS */}
       <View style={styles.content}>
         <View style={styles.listHeader}>
           <Text style={styles.sectionTitle}>PRODUCTOS</Text>
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>{stock.length} Items</Text>
+            <Text style={styles.badgeText}>
+              {filteredProducts.length > 0 ? filteredProducts.length : '0'}{' '}
+              Items
+            </Text>
           </View>
         </View>
 
@@ -139,11 +149,7 @@ export function Stock() {
                     ]}
                   >
                     <Ionicons
-                      name={
-                        item.name.includes('Café')
-                          ? 'cafe-outline'
-                          : 'beaker-outline'
-                      }
+                      name={'beaker-outline'}
                       size={24}
                       color={item.quantity < 3 ? '#E53935' : '#0061D9'}
                     />
@@ -177,7 +183,7 @@ export function Stock() {
       <TouchableOpacity style={styles.fab}>
         <Ionicons name='add' size={32} color='#FFF' />
       </TouchableOpacity>
-    </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
 
@@ -187,8 +193,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 95,
-    margin: 5,
-    marginLeft: 0,
+    marginLeft: -20,
+    marginBottom: 12,
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
   },
@@ -198,18 +204,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: COLORS.bg,
   },
-  container: { flex: 1, backgroundColor: '#FAF9FE' },
+  container: { flex: 1, backgroundColor: '#FAF9FE', paddingTop: 25 },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     height: 70,
-    backgroundColor: '#FFF',
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
   },
-  headerTitle: { fontSize: 24, fontWeight: 'bold', color: '#1A1A1A' },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#1A1A1A',
+    textAlign: 'justify',
+    alignSelf: 'center',
+  },
   userButton: {
     width: 44,
     height: 44,

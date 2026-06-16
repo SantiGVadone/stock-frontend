@@ -21,17 +21,12 @@ export function Login() {
   const { login, loading } = useStock()
 
   const handleLogin = async () => {
-    // aca voy a enviar los datos de email y password al backend
-    // const response = await fetch('https://vadonedev.com.ar/api/login')
     try {
       login(email, password)
     } catch (error) {
       console.error('hubo un error en el login', error)
       // aca tiene que ir un toasmessage
     }
-    // espero resivir un token para guardar
-    // si el login es exitoso hago un navigation.navigate('Stock')
-    // si el login falla, osea que recibo un error del backend, muestro un mensaje de error al usuario
   }
 
   return (

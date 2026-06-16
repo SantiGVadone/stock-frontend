@@ -2,8 +2,8 @@ import { useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
 
 import { guardarToken, obtenerToken } from '../utility/auth'
-// const API_URL = 'https://api.vadonedev.com.ar/api'
-const API_URL = 'http://localhost:3000/api'
+const API_URL = 'https://api.vadonedev.com.ar/api'
+// const API_URL = 'http://localhost:3000/api'
 // santiagogabrielvadone@outlook.com
 // santicapo2003
 
@@ -49,8 +49,6 @@ export const useStock = () => {
 
       const data = await response.json()
       guardarToken(data.token)
-      const token = await obtenerToken()
-      console.log(token)
       setLoading(false)
       navigation.navigate('Stock')
     } catch (err: any) {
@@ -63,14 +61,14 @@ export const useStock = () => {
   const fetchStock = async () => {
     try {
       setLoading(true)
-      const token = obtenerToken()
+      const token = await obtenerToken()
       const response = await fetch(`${API_URL}/products`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
-          'x-store-id': '8',
+          'x-store-id': '1',
         },
       })
       if (!response.ok) throw new Error('Error al conectar con el servidor')

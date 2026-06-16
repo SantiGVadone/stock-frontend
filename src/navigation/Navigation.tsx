@@ -6,6 +6,8 @@ import { AddProduct } from './screens/AddProduct'
 import { EditProduct } from './screens/EditProduct'
 import { Login } from './screens/Login'
 import { Register } from './screens/Register'
+import Profile from './screens/Profile'
+import Filters from './screens/Filters'
 
 const RootStack = createNativeStackNavigator({
   screens: {
@@ -23,6 +25,18 @@ const RootStack = createNativeStackNavigator({
     },
     Stock: {
       screen: Stock,
+      options: {
+        headerShown: false,
+      },
+    },
+    Filters: {
+      screen: Filters,
+      options: {
+        headerShown: false,
+      },
+    },
+    Profile: {
+      screen: Profile,
       options: {
         headerShown: false,
       },
