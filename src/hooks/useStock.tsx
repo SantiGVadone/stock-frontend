@@ -90,13 +90,18 @@ export const useStock = () => {
   const removeProduct = async (id: number) => {
     try {
       setLoading(true)
-      const response = await fetch(`${API_URL}'/products'/${id}`, {
+      const token = await obtenerToken()
+      const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'x-store-id': '1',
         },
-        body: JSON.stringify({}),
       })
+      if (!response.ok) throw new Error('Error al conectar con el servidor')
+      setLoading(false)
+      navigation.navigate('Stock')
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -122,6 +127,7 @@ export const useStock = () => {
           'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
+          'x-store-id': '1',
         },
         body: JSON.stringify({
           name: product.name,
@@ -131,7 +137,7 @@ export const useStock = () => {
         }),
       })
       if (!response.ok) {
-        const errorDetail = await response.json()
+        const errorDetail = await response.text()
         console.log('Error al guardar en la base de datos', errorDetail)
       }
     } catch (error) {

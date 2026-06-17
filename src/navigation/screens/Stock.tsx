@@ -6,7 +6,6 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
-  SafeAreaView,
   Animated,
   Dimensions,
   ActivityIndicator,
@@ -180,7 +179,12 @@ export function Stock() {
         />
       </View>
       {/* BOTÓN FLOTANTE AGREGAR */}
-      <TouchableOpacity style={styles.fab}>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => {
+          navigation.navigate('AddProduct')
+        }}
+      >
         <Ionicons name='add' size={32} color='#FFF' />
       </TouchableOpacity>
     </SafeAreaProvider>

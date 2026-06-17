@@ -37,7 +37,7 @@ export function Login() {
       >
         <View style={styles.logoContainer}>
           <Image
-            source={{ uri: '{{DATA:IMAGE:IMAGE_38}}' }} // Logo Pro
+            source={{ uri: '../../../assets/icon.png' }} // Logo Pro
             style={styles.logo}
             resizeMode='contain'
           />
@@ -120,11 +120,29 @@ export function Login() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FAF9FE' },
-  scrollContainer: { flexGrow: 1, padding: 24, justifyContent: 'center' },
-  logoContainer: { alignItems: 'center', marginBottom: 32 },
-  logo: { width: 100, height: 100 },
-  brandName: { fontSize: 28, fontWeight: 'bold', color: '#000', marginTop: 8 },
+  container: {
+    flex: 1,
+    backgroundColor: '#FAF9FE',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 24,
+    justifyContent: 'center',
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+  },
+  brandName: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000',
+    marginTop: 8,
+  },
   welcomeText: {
     fontSize: 24,
     fontWeight: '700',
@@ -160,5 +178,9 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 10,
   },
-  loginButtonText: { color: '#FFF', fontSize: 18, fontWeight: 'bold' },
+  loginButtonText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 })

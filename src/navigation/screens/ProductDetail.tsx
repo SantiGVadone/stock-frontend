@@ -1,10 +1,18 @@
-import { Text, View, TouchableOpacity } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Feather from '@expo/vector-icons/Feather'
-import { useNavigation } from '@react-navigation/native'
 import { useLayoutEffect, useState } from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
-import COLORS from '../../constants/colors'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useNavigation } from '@react-navigation/native'
+import { useStock } from '../../hooks/useStock'
+
+const { width } = Dimensions.get('window')
 
 interface Product {
   id: number
@@ -18,31 +26,14 @@ export const ProductDetail = ({ route }: any) => {
   const navigation = useNavigation()
   const { product } = route.params
   const [localProduct, setLocalProduct] = useState<Product>(product)
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={styles.edit}>
-          <TouchableOpacity
-            onPress={() => {
-              ;(navigation.navigate as any)('EditProduct', {
-                product: localProduct,
-              })
-            }}
-          >
-            <Feather name='edit' size={30} color='black' />
-          </TouchableOpacity>
-        </View>
-      ),
-    })
-  }, [navigation, localProduct])
+  const { removeProduct } = useStock()
 
   const handleAdd = async () => {
     let newQuantity = localProduct.quantity + 1
 
     try {
       const response = await fetch(
-        `http://192.168.1.39:3000/api/products/${product.id}`,
+        `https://api.vadonedev.com.ar/api/products/${product.id}`,
         {
           method: 'PATCH',
           headers: {
@@ -72,7 +63,7 @@ export const ProductDetail = ({ route }: any) => {
 
     try {
       const response = await fetch(
-        `http://192.168.1.39:3000/api/products/${localProduct.id}`,
+        `https://api.vadonedev.com.ar/api/products/${localProduct.id}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -90,110 +81,266 @@ export const ProductDetail = ({ route }: any) => {
     }
   }
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => {
+            ;(navigation.navigate as any)('EditProduct', {
+              product: localProduct,
+            })
+          }}
+        >
+          <Ionicons name='create-outline' size={30} color='#0061D9' />
+        </TouchableOpacity>
+      ),
+    })
+  }, [navigation, localProduct])
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.container}>
-          {/* Aca va la imagen */}
-          <View style={styles.imagePart}>
-            <View style={styles.imageContainer}>
-              <Text style={{ color: 'white', textAlign: 'center' }}>
-                Aca va a ir la Imagen del producto cargada desde la camara
+    <SafeAreaProvider style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.imageContainer}>
+          <View style={styles.placeholderImage}>
+            <Ionicons name='image-outline' size={80} color='#0061D9' />
+          </View>
+          <View
+            style={[
+              styles.statusBadge,
+              {
+                backgroundColor: product.quantity >= 3 ? '#E5F9E0' : '#FFF0F0',
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.statusText,
+                { color: product.quantity >= 3 ? '#2E7D32' : '#E53935' },
+              ]}
+            >
+              {product.quantity >= 3 ? 'EN STOCK' : 'BAJO STOCK'}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.infoContent}>
+          <View style={styles.titleRow}>
+            <View style={styles.categoryBadge}>
+              <Text style={styles.categoryText}>
+                {product.category.toUpperCase()}
               </Text>
+            </View>
+            <Text style={styles.lastUpdate}>Act. {product.lastUpdate}</Text>
+          </View>
+
+          <Text style={styles.productName}>{product.name}</Text>
+
+          <View style={styles.stockCard}>
+            <View>
+              <Text style={styles.stockLabel}>CANTIDAD ACTUAL</Text>
+              <Text style={styles.stockValue}>{product.quantity} unidades</Text>
+            </View>
+            <View style={styles.stockActions}>
+              <TouchableOpacity
+                style={styles.stockCircle}
+                onPress={handleSubstract}
+              >
+                <Ionicons name='remove' size={24} color='#1A1A1A' />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.stockCircle, { backgroundColor: '#0061D9' }]}
+                onPress={handleAdd}
+              >
+                <Ionicons name='add' size={24} color='#FFF' />
+              </TouchableOpacity>
             </View>
           </View>
 
-          {/*Aca va el resto del contenido */}
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'space-between',
-            }}
-          >
-            {/*Conjunto de nombre y descripcion*/}
-            <View style={{ alignItems: 'center' }}>
-              <Text style={styles.productName}>{localProduct.name}</Text>
-              <Text style={styles.productDescription}>
-                {localProduct.description}
-              </Text>
-            </View>
-            {/* Conjunto para la cantidad */}
-            <View style={{ alignItems: 'center', margin: 20 }}>
-              <View style={styles.fastControlsContainer}>
-                <TouchableOpacity onPress={handleSubstract}>
-                  <Feather name='minus' size={30} color='black' />
-                </TouchableOpacity>
-                <Text style={styles.fastControlsQuantity}>
-                  {localProduct.quantity}
+          <View style={styles.detailsList}>
+            <View style={styles.detailItem}>
+              <View style={styles.detailIcon}>
+                <Ionicons name='document-text-outline' size={20} color='#666' />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.detailLabel}>DESCRIPCIÓN</Text>
+                <Text style={styles.descriptionText}>
+                  {product.description}
                 </Text>
-                <TouchableOpacity onPress={handleAdd}>
-                  <Feather name='plus' size={30} color='black' />
-                </TouchableOpacity>
               </View>
             </View>
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.deleteButton}>
+          <Ionicons name='trash-outline' size={20} color='#E53935' />
+          <Text
+            style={styles.deleteText}
+            onPress={() => removeProduct(product.id)}
+          >
+            Eliminar
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mainButton}>
+          <Text style={styles.mainButtonText}>Actualizar Stock</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaProvider>
   )
 }
 
 const styles = StyleSheet.create({
-  edit: {
-    width: '100%',
-    alignItems: 'flex-end',
-    padding: 15,
-    paddingVertical: 0,
-  },
-  container: {
-    flex: 1,
+  container: { flex: 1, backgroundColor: '#FAF9FE' },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    paddingHorizontal: 20,
+    height: 60,
+    backgroundColor: '#FFF',
   },
-  imagePart: {
+  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#1A1A1A' },
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
+  },
+  editButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imageContainer: {
-    height: 200,
-    width: 200,
-    backgroundColor: COLORS.oscuro,
-    alignItems: 'center',
+    width: width,
+    height: 280,
+    backgroundColor: '#FFF',
     justifyContent: 'center',
-    borderRadius: 15,
-    margin: 0,
-    elevation: 4,
-  },
-  productName: {
-    color: COLORS.oscuro,
-    fontSize: 36,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    textShadowColor: COLORS.softGray,
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 2,
-  },
-  productDescription: {
-    fontSize: 24,
-    textAlign: 'center',
     alignItems: 'center',
-    width: '60%',
   },
-  fastControlsContainer: {
-    flexDirection: 'row',
+  placeholderImage: {
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    backgroundColor: '#F0F4FF',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.softGray,
-    borderRadius: 99999,
-    paddingHorizontal: 24,
+  },
+  statusBadge: {
+    position: 'absolute',
+    bottom: 24,
+    paddingHorizontal: 16,
     paddingVertical: 8,
-    elevation: 3,
+    borderRadius: 20,
   },
-  fastControlsQuantity: {
-    textAlign: 'center',
-    justifyContent: 'center',
-    fontSize: 30,
+  statusText: { fontSize: 12, fontWeight: 'bold' },
+  infoContent: {
+    padding: 24,
+    backgroundColor: '#FAF9FE',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    marginTop: -10,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  categoryBadge: {
+    backgroundColor: '#0061D9',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  categoryText: { color: '#FFF', fontSize: 10, fontWeight: 'bold' },
+  lastUpdate: { fontSize: 12, color: '#999' },
+  productName: {
+    fontSize: 28,
     fontWeight: 'bold',
-    paddingHorizontal: 18,
+    color: '#1A1A1A',
+    marginBottom: 24,
   },
+  stockCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  stockLabel: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#999',
+    marginBottom: 4,
+  },
+  stockValue: { fontSize: 20, fontWeight: 'bold', color: '#1A1A1A' },
+  stockActions: { flexDirection: 'row', gap: 12 },
+  stockCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#F5F6F8',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  detailsList: { gap: 20 },
+  detailItem: { flexDirection: 'row', gap: 16 },
+  detailIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#FFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+  },
+  detailLabel: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#999',
+    marginBottom: 2,
+  },
+  detailValue: { fontSize: 16, color: '#1A1A1A', fontWeight: '500' },
+  descriptionText: { fontSize: 15, color: '#666', lineHeight: 22 },
+  footer: {
+    padding: 24,
+    flexDirection: 'row',
+    gap: 12,
+    backgroundColor: '#FFF',
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+  },
+  deleteButton: {
+    width: 120,
+    height: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
+    flexDirection: 'row',
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#FFCDD2',
+  },
+  deleteText: { color: '#E53935', fontSize: 16, fontWeight: 'bold' },
+  mainButton: {
+    flex: 1,
+    height: 56,
+    backgroundColor: '#0061D9',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 12,
+  },
+  mainButtonText: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
 })
