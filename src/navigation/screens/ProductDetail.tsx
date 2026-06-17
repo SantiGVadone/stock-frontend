@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { useStock } from '../../hooks/useStock'
+import { obtenerToken } from '../../utility/auth'
 
 const { width } = Dimensions.get('window')
 
@@ -62,11 +63,17 @@ export const ProductDetail = ({ route }: any) => {
     const newQuantity = localProduct.quantity - 1
 
     try {
+      const token = obtenerToken()
+      const id = localProduct.id
       const response = await fetch(
-        `https://api.vadonedev.com.ar/api/products/${localProduct.id}`,
+        `https://api.vadonedev.com.ar/api/products/${id}`,
         {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-store-id': '1',
+          },
           body: JSON.stringify({
             ...localProduct,
             quantity: Number(newQuantity),
@@ -126,15 +133,13 @@ export const ProductDetail = ({ route }: any) => {
 
         <View style={styles.infoContent}>
           <View style={styles.titleRow}>
+            <Text style={styles.productName}>{product.name}</Text>
             <View style={styles.categoryBadge}>
               <Text style={styles.categoryText}>
                 {product.category.toUpperCase()}
               </Text>
             </View>
-            <Text style={styles.lastUpdate}>Act. {product.lastUpdate}</Text>
           </View>
-
-          <Text style={styles.productName}>{product.name}</Text>
 
           <View style={styles.stockCard}>
             <View>
@@ -174,18 +179,15 @@ export const ProductDetail = ({ route }: any) => {
       </ScrollView>
 
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.deleteButton}>
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={() => removeProduct(product.id)}
+        >
           <Ionicons name='trash-outline' size={20} color='#E53935' />
-          <Text
-            style={styles.deleteText}
-            onPress={() => removeProduct(product.id)}
-          >
-            Eliminar
-          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.mainButton}>
+        {/*<TouchableOpacity style={styles.mainButton}>
           <Text style={styles.mainButtonText}>Actualizar Stock</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaProvider>
   )
@@ -231,7 +233,7 @@ const styles = StyleSheet.create({
   },
   statusBadge: {
     position: 'absolute',
-    bottom: 24,
+    bottom: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -248,21 +250,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 30,
   },
   categoryBadge: {
     backgroundColor: '#0061D9',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 8,
+    elevation: 2,
   },
   categoryText: { color: '#FFF', fontSize: 10, fontWeight: 'bold' },
-  lastUpdate: { fontSize: 12, color: '#999' },
   productName: {
+    width: '75%',
     fontSize: 28,
     fontWeight: 'bold',
     color: '#1A1A1A',
-    marginBottom: 24,
+    textAlignVertical: 'center',
+    textAlign: 'center',
   },
   stockCard: {
     backgroundColor: '#FFF',
@@ -316,24 +320,27 @@ const styles = StyleSheet.create({
   descriptionText: { fontSize: 15, color: '#666', lineHeight: 22 },
   footer: {
     padding: 24,
-    flexDirection: 'row',
-    gap: 12,
-    backgroundColor: '#FFF',
-    borderTopWidth: 1,
-    borderTopColor: '#F0F0F0',
+    alignItems: 'flex-end',
+    // flexDirection: 'row',
+    // gap: 12,
+    // backgroundColor: '#FFF',
+    // borderTopWidth: 1,
+    // borderTopColor: '#F0F0F0',
   },
   deleteButton: {
-    width: 120,
-    height: 56,
+    // width: 120,
+    // height: 56,
+    width: 70,
+    height: 70,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
-    flexDirection: 'row',
-    gap: 8,
+    // flexDirection: 'row',
+    // gap: 8,
     borderWidth: 1,
     borderColor: '#FFCDD2',
   },
-  deleteText: { color: '#E53935', fontSize: 16, fontWeight: 'bold' },
+  // deleteText: { color: '#E53935', fontSize: 16, fontWeight: 'bold' },
   mainButton: {
     flex: 1,
     height: 56,

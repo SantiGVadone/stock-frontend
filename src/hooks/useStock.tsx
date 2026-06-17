@@ -99,9 +99,9 @@ export const useStock = () => {
           'x-store-id': '1',
         },
       })
-      if (!response.ok) throw new Error('Error al conectar con el servidor')
       setLoading(false)
-      navigation.navigate('Stock')
+      navigation.goBack()
+      if (!response.ok) throw new Error('Error al conectar con el servidor')
     } catch (err: any) {
       setError(err.message)
     } finally {

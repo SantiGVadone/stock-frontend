@@ -154,8 +154,20 @@ export function Stock() {
                     />
                   </View>
                   <View style={styles.productInfo}>
-                    <Text style={styles.productName}>{item.name}</Text>
-                    <Text style={styles.productDesc}>{item.description}</Text>
+                    <Text
+                      style={styles.productName}
+                      numberOfLines={1}
+                      ellipsizeMode='tail'
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={styles.productDesc}
+                      numberOfLines={2}
+                      ellipsizeMode='tail'
+                    >
+                      {item.description}
+                    </Text>
                   </View>
                   <View style={styles.qtyContainer}>
                     <Text
@@ -178,7 +190,6 @@ export function Stock() {
           )}
         />
       </View>
-      {/* BOTÓN FLOTANTE AGREGAR */}
       <TouchableOpacity
         style={styles.fab}
         onPress={() => {
