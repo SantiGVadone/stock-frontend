@@ -56,7 +56,7 @@
 - RegisterPage:
   - Hacer que el register haga la peticion HTTP
   - Si salio bien redirigir a la LoginPage
-- Agregar el icono de Usuario en la pantalla principal
+- ✅ Agregar el icono de Usuario en la pantalla principal
   - Donde quiero que se pueda invitar a un empleado (en caso de ser JEFE)
   - Quiero que se pueda renunciar
   - Quiero que se pueda cambiar de tienda
@@ -70,7 +70,7 @@
 # Futura version 1.1.1
 
 - ✅ Agregar un motor de busqueda en la pantalla de Stock
-- Solucionar el formato del boton de eliminar dentro de la pantalla de Stock
+- ✅ Solucionar el formato del boton de eliminar dentro de la pantalla de Stock
 - Que la pantalla de Stock se actualice al volver a esta
 
 # Futura version 2.0
@@ -79,11 +79,11 @@
 
 # Feats no tan importantes
 
-- Que la SearchBar este un poco mas abajo
-- Agregar una animation a la SearchBar para que se Expanda y se Comprima
+- ✅ Que la SearchBar este un poco mas abajo
+- ✅ Agregar una animation a la SearchBar para que se Expanda y se Comprima
 - Cambiar las pestañas de CreateProduct y de EditProduct
-- Agregar un Label para cada Input en la pantalla de Login
-- Agregar boton para hacer visible la contraseña
+- ✅ Agregar un Label para cada Input en la pantalla de Login
+- ✅ Agregar boton para hacer visible la contraseña
 
 # Futura V1.4
 
@@ -99,5 +99,31 @@
 - Hoy agregue la Filters Page, hay que acomodarla
 - Agregue la profile page, hay que acomodarla
 - ✅ Acomode la StockPage nueva
-- Tengo que ver bien el tema del contador del stockPage
+- ✅ Tengo que ver bien el tema del contador del stockPage
 - ✅ Arregle el tema del setSearch en el textInput
+
+# Hoy 17/6
+
+- Añadir la pantalla de ProductDetail nueva
+  - Poder eliminar desde ese pantalla
+  - Poder editar desde esa pantalla
+- Corregir las funciones que estan en el useStock.tsx
+  - ✅ Agregar
+  - Editar
+  - ✅ Eliminar
+  - ✅ FetchAll
+  - ✅ Nueva funcion de Login
+
+# To Do From 17/6
+
+- Use context para pasar estado de loging
+- Aislar las funciones handleAdd y handleSubstract de la pantalla de productDetail hacia useStock
+- Mejorar la RegisterScreen
+- Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
+- Actualizar la pantalla de AddProduct
+- Actualizar la pantalla de EditProduct
+- Hacer funcional la pantalla de Profile
+  - Crear un apartado para la eleccion de tiendas
+- Hacer funcional la pantalla de Filters
+- Agregar un Logo a la APP
+- Agregar alguna pantalla de bienvenida, con logos y animaciones
