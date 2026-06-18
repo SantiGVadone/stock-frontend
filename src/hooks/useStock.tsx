@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react'
 
 import { guardarToken, obtenerToken } from '../utility/auth'
 const API_URL = 'https://api.vadonedev.com.ar/api'
-// const API_URL = 'http://localhost:3000/api'
-// santiagogabrielvadone@outlook.com
-// santicapo2003
+
 
 interface Product {
   id: number
@@ -181,6 +179,77 @@ export const useStock = () => {
       navigation.navigate('Stock')
     }
   }
+    const handleAdd = async (product: Product) => {
+    setLoading(true)
+    const newQuantity = product.quantity + 1
+    const token = await obtenerToken()
+
+    try{
+      const response = await fetch (
+        `${API_URL}/products/${product.id}`,{
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-store-id': '1',
+          },
+          body: JSON.stringify({
+            name: product.name,
+            description: product.description,
+            category: product.category,
+            quantity: Number(newQuantity),
+          }),
+        }
+      )
+      if(!response.ok){
+        const errorDetail = await response.text()
+        console.error('Error al guardar en la Base de Datos: ', errorDetail)
+      }
+      setError(null)
+    }catch(e){
+      setError('Error en handleAdd')
+      console.error('Error de conexion con el servidor', e)
+    }finally{
+      setLoading(false)
+      fetchStock()
+    }
+  }
+
+  const handleSubstract = async (product: Product) => {
+    setLoading(true)
+    const newQuantity = product.quantity - 1
+    const token = await obtenerToken()
+
+    try{
+      const response = await fetch (
+        `${API_URL}/products/${product.id}`,{
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-store-id': '1',
+          },
+          body: JSON.stringify({
+            name: product.name,
+            description: product.description,
+            category: product.category,
+            quantity: Number(newQuantity),
+          }),
+        }
+      )
+      if(!response.ok){
+        const errorDetail = await response.text()
+        console.error('Error al guardar en la Base de Datos: ', errorDetail)
+      }
+      setError(null)
+    }catch(e){
+      setError('Error en handleAdd')
+      console.error('Error de conexion con el servidor', e)
+    }finally{
+      setLoading(false)
+      fetchStock()
+    }
+  }
 
   return {
     login,
@@ -191,5 +260,7 @@ export const useStock = () => {
     removeProduct,
     addProduct,
     editProduct,
+    handleAdd,
+    handleSubstract,
   }
 }
