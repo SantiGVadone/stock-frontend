@@ -120,7 +120,7 @@
 - ✅ Aislar la funcion handleAdd
 - ✅ Aislar la funcion handleSubstract
 - Revisar un error del backend al utilizar handleAdd o handleSubstract
-- Mejorar la RegisterScreen
+- ✅ Mejorar la RegisterScreen
 - Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
 - Actualizar la pantalla de AddProduct
 - Actualizar la pantalla de EditProduct
