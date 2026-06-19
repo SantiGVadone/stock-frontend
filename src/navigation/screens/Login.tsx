@@ -54,6 +54,9 @@ export function Login() {
             placeholder='ejemplo@email.com'
             value={email}
             onChangeText={setEmail}
+            keyboardType='email-address'
+            autoCapitalize='none'
+            returnKeyType='next'
           />
 
           <CustomInput
@@ -63,6 +66,9 @@ export function Login() {
             value={password}
             onChangeText={setPassword}
             isPassword
+            keyboardType='default'
+            autoCapitalize='none'
+            returnKeyType='next'
           />
 
           <TouchableOpacity

@@ -1,5 +1,11 @@
-import { useState } from "react"
-import { StyleSheet, View, Text,TextInput, TouchableOpacity } from "react-native"
+import { useState } from 'react'
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 export const CustomInputMid = ({
@@ -9,6 +15,7 @@ export const CustomInputMid = ({
   onChangeText,
   isPassword = false,
   placeholder,
+  ...props
 }: any) => {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -29,6 +36,7 @@ export const CustomInputMid = ({
           onChangeText={onChangeText}
           secureTextEntry={isPassword && !showPassword}
           autoCapitalize='none'
+          {...props}
         />
         {isPassword && (
           <TouchableOpacity
@@ -47,9 +55,8 @@ export const CustomInputMid = ({
   )
 }
 
-
 const styles = StyleSheet.create({
-    inputGroup: { marginBottom: 20, width: '45%'},
+  inputGroup: { marginBottom: 20, width: '45%' },
   label: { fontSize: 14, fontWeight: '600', color: '#444', marginBottom: 8 },
   inputContainer: {
     flexDirection: 'row',

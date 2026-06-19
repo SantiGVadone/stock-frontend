@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # App de gestion de Stock
 
 > [!NOTE]
@@ -97,17 +98,16 @@
 
 # Hoy 16/6/26
 
-- Hoy agregue la Filters Page, hay que acomodarla
-- Agregue la profile page, hay que acomodarla
+- ✅ Agregar template de ProfilePage
 - ✅ Acomode la StockPage nueva
 - ✅ Tengo que ver bien el tema del contador del stockPage
 - ✅ Arregle el tema del setSearch en el textInput
 
 # Hoy 17/6
 
-- Añadir la pantalla de ProductDetail nueva
-  - Poder eliminar desde ese pantalla
-  - Poder editar desde esa pantalla
+- ✅ Añadir la pantalla de ProductDetail nueva
+  - ✅ Poder eliminar desde ese pantalla
+  - ✅ Poder editar desde esa pantalla
 - Corregir las funciones que estan en el useStock.tsx
   - ✅ Agregar
   - Editar
@@ -120,8 +120,8 @@
 - Use context para pasar estado de loging
 - ✅ Aislar la funcion handleAdd
 - ✅ Aislar la funcion handleSubstract
-- Revisar un error del backend al utilizar handleAdd o handleSubstract
-- Mejorar la RegisterScreen
+- 🔴 Revisar un error del backend al utilizar handleAdd o handleSubstract
+- ✅ Mejorar la RegisterScreen
 - Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
 - Actualizar la pantalla de AddProduct
 - Actualizar la pantalla de EditProduct
@@ -130,6 +130,7 @@
 - Hacer funcional la pantalla de Filters
 - Agregar un Logo a la APP
 - Agregar alguna pantalla de bienvenida, con logos y animaciones
+
 # App de gestion de Stock
 
 > [!NOTE]
@@ -261,4 +262,4 @@
 - Hacer funcional la pantalla de Filters
 - Agregar un Logo a la APP
 - Agregar alguna pantalla de bienvenida, con logos y animaciones
->>>>>>> 8e7c3265544df31011c8e71bfe260830f45ad31f
+  > > > > > > > 8e7c3265544df31011c8e71bfe260830f45ad31f
