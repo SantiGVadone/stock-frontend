@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react'
 
 import { guardarToken, obtenerToken } from '../utility/auth'
 const API_URL = 'https://api.vadonedev.com.ar/api'
-// const API_URL = 'http://localhost:3000/api'
-// santiagogabrielvadone@outlook.com
-// santicapo2003
+
 
 interface Product {
   id: number
@@ -22,11 +20,50 @@ interface AddProduct {
   category: string
 }
 
+interface RegisterUser {
+  name: string
+  lastName: string
+  email: string
+  phone: string
+  password: string
+}
+
+
 export const useStock = () => {
   const [stock, setStock] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const navigation = useNavigation<any>()
+
+  const register = async (user: RegisterUser) => {
+    try{
+      setLoading(true)
+      const response = await fetch(`${API_URL}/auth/register`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: user.name,
+          lastName: user.lastName,
+          phone: user.phone,
+          email: user.email,
+          password: user.password,
+        }),
+      })
+      if(!response.ok){
+        const errorDetail = await response.text()
+        console.error(errorDetail)
+        throw new Error('Error en la peticion de register')
+      }
+      navigation.navigate('Login')
+    }catch(error : any){
+      setError(error.message)
+    }finally{
+      setLoading(false)
+    }
+  }
 
   const login = async (email: string, password: string) => {
     try {
@@ -46,9 +83,7 @@ export const useStock = () => {
       if (!response.ok) {
         throw new Error('Error en la peticion de login')
       }
-
-      const data = await response.json()
-      guardarToken(data.token)
+      
       setLoading(false)
       navigation.navigate('Stock')
     } catch (err: any) {
@@ -181,8 +216,80 @@ export const useStock = () => {
       navigation.navigate('Stock')
     }
   }
+    const handleAdd = async (product: Product) => {
+    setLoading(true)
+    const newQuantity = product.quantity + 1
+    const token = await obtenerToken()
+
+    try{
+      const response = await fetch (
+        `${API_URL}/products/${product.id}`,{
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-store-id': '1',
+          },
+          body: JSON.stringify({
+            name: product.name,
+            description: product.description,
+            category: product.category,
+            quantity: Number(newQuantity),
+          }),
+        }
+      )
+      if(!response.ok){
+        const errorDetail = await response.text()
+        console.error('Error al guardar en la Base de Datos: ', errorDetail)
+      }
+      setError(null)
+    }catch(e){
+      setError('Error en handleAdd')
+      console.error('Error de conexion con el servidor', e)
+    }finally{
+      setLoading(false)
+      fetchStock()
+    }
+  }
+
+  const handleSubstract = async (product: Product) => {
+    setLoading(true)
+    const newQuantity = product.quantity - 1
+    const token = await obtenerToken()
+
+    try{
+      const response = await fetch (
+        `${API_URL}/products/${product.id}`,{
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'x-store-id': '1',
+          },
+          body: JSON.stringify({
+            name: product.name,
+            description: product.description,
+            category: product.category,
+            quantity: Number(newQuantity),
+          }),
+        }
+      )
+      if(!response.ok){
+        const errorDetail = await response.text()
+        console.error('Error al guardar en la Base de Datos: ', errorDetail)
+      }
+      setError(null)
+    }catch(e){
+      setError('Error en handleAdd')
+      console.error('Error de conexion con el servidor', e)
+    }finally{
+      setLoading(false)
+      fetchStock()
+    }
+  }
 
   return {
+    register,
     login,
     stock,
     loading,
@@ -191,5 +298,7 @@ export const useStock = () => {
     removeProduct,
     addProduct,
     editProduct,
+    handleAdd,
+    handleSubstract,
   }
 }

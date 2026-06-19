@@ -11,7 +11,6 @@ import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { useStock } from '../../hooks/useStock'
-import { obtenerToken } from '../../utility/auth'
 
 const { width } = Dimensions.get('window')
 
@@ -27,66 +26,7 @@ export const ProductDetail = ({ route }: any) => {
   const navigation = useNavigation()
   const { product } = route.params
   const [localProduct, setLocalProduct] = useState<Product>(product)
-  const { removeProduct } = useStock()
-
-  const handleAdd = async () => {
-    let newQuantity = localProduct.quantity + 1
-
-    try {
-      const response = await fetch(
-        `https://api.vadonedev.com.ar/api/products/${product.id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ...localProduct,
-            quantity: Number(newQuantity),
-          }),
-        },
-      )
-      if (response.ok) {
-        setLocalProduct({ ...localProduct, quantity: newQuantity })
-      } else {
-        const errorDetail = await response.json()
-        console.log('Error al guardar en la base de datos', errorDetail)
-      }
-    } catch (error) {
-      console.error(error)
-      alert('No se pudo conectar con la notebook')
-    }
-  }
-
-  const handleSubstract = async () => {
-    if (localProduct.quantity <= 0) return
-    const newQuantity = localProduct.quantity - 1
-
-    try {
-      const token = obtenerToken()
-      const id = localProduct.id
-      const response = await fetch(
-        `https://api.vadonedev.com.ar/api/products/${id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-            'x-store-id': '1',
-          },
-          body: JSON.stringify({
-            ...localProduct,
-            quantity: Number(newQuantity),
-          }),
-        },
-      )
-      if (response.ok) {
-        setLocalProduct({ ...localProduct, quantity: newQuantity })
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const { removeProduct, handleAdd, handleSubstract } = useStock()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -149,13 +89,13 @@ export const ProductDetail = ({ route }: any) => {
             <View style={styles.stockActions}>
               <TouchableOpacity
                 style={styles.stockCircle}
-                onPress={handleSubstract}
+                onPress={()=>{handleSubstract(localProduct)}}
               >
                 <Ionicons name='remove' size={24} color='#1A1A1A' />
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.stockCircle, { backgroundColor: '#0061D9' }]}
-                onPress={handleAdd}
+                onPress={()=>{handleAdd(localProduct)}}
               >
                 <Ionicons name='add' size={24} color='#FFF' />
               </TouchableOpacity>

@@ -4,201 +4,227 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
+  Image,
   KeyboardAvoidingView,
-  StatusBar,
+  ScrollView,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { CustomInput } from '../../components/CustomInput'
 import { useNavigation } from '@react-navigation/native'
-import Ionicons from '@expo/vector-icons/Ionicons'
 
-interface RegisterUser {
-  name: string
-  lastName: string
-  email: string
-  phone: string
-  password: string
-}
+import { Ionicons } from '@expo/vector-icons'
+import { useStock } from '../../hooks/useStock'
+import { CustomInputMid } from '../../components/CustomInputMid'
+
+
+// interface RegisterUser {
+//   name: string
+//   lastName: string
+//   email: string
+//   phone: string
+//   password: string
+// }
+
 
 export function Register() {
   const navigation = useNavigation<any>()
-  const [user, setUser] = useState<RegisterUser>({
-    name: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-  })
+  const [name, setName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  
+  const { register, loading } = useStock()
 
-  const handleRegister = () => {
-    // aca voy a enviar todos los datos del usuario al backend para crear la cuenta
-    // si el registro es exitoso (osea que resivo un 200) hago un navigation.navigate('Login')
-    // si el registro no es exitoso, muestro un mensaje de error al usuario, ej: Email ya registrado
-    navigation.navigate('Login')
+  const handleRegister = async () => {
+    try {
+      const user = {name, lastName, email, phone, password}
+      register(user)
+    } catch (error) {
+      console.error('hubo un error en el register', error)
+      // aca tiene que ir un toasmessage
+    }
   }
 
   return (
-    <SafeAreaView style={styles.fondo}>
-      <StatusBar barStyle={'dark-content'} />
-      <TouchableOpacity style={styles.back} onPress={() => {}}>
-        <Ionicons name='arrow-back' size={30} color='black' />
-      </TouchableOpacity>
-      <View>
-        <Text style={styles.welcome}>Crear una cuenta</Text>
-      </View>
-      <KeyboardAvoidingView style={styles.container}>
-        <View style={styles.form}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder='Nombre'
-              style={styles.input}
-              onChangeText={(text) => setUser({ ...user, name: text })}
+    <KeyboardAvoidingView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={{alignItems: 'center',marginBottom: 32}}>  
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 35, justifyContent: 'center'}}>
+            <Image
+            source={{ uri: 'https://png.pngtree.com/element_our/png/20180911/background-material-design-for-lorem-ipsum-logo-png_89719.jpg' }} // Logo Pro
+            style={{ width: 100, height: 100,}}
+            resizeMode='contain'
             />
-            <TextInput
-              placeholder='Apellido'
-              style={styles.input}
-              onChangeText={(text) => setUser({ ...user, lastName: text })}
-            />
-            <TextInput
-              placeholder='Telefono'
-              style={styles.input}
-              onChangeText={(text) => setUser({ ...user, phone: text })}
-            />
-            <TextInput
-              placeholder='Email'
-              style={styles.input}
-              onChangeText={(text) => setUser({ ...user, email: text })}
-            />
-            <TextInput
-              placeholder='Contraseña'
-              style={styles.input}
-              secureTextEntry={true}
-              onChangeText={(text) => setUser({ ...user, password: text })}
-            />
-            <TextInput
-              placeholder='Confirmar Contraseña'
-              style={styles.input}
-              secureTextEntry={true}
-              onChangeText={(text) => setUser({ ...user, password: text })}
-            />
+          <Text style={styles.brandName}>StockPro</Text>
           </View>
-          <View style={styles.buttonContainer}>
-            <Text style={styles.terms}>
-              Creando esta cuenta usted acepta los términos y condiciones de uso
-              y las políticas de privacidad
+          <Text style={styles.subText}>Gestión de stock inteligente</Text>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.welcomeText}>Crear Cuenta</Text>
+
+            <View
+            style={{flex: 1, flexDirection: 'row', gap: 30}}>
+            <CustomInputMid
+            label='Nombre'
+            icon='person-outline'
+            placeholder='Juan'
+            value={name}
+            onChangeText={setName}
+          />
+          <CustomInputMid
+            label='Apellido'
+            icon='person-outline'
+            placeholder='Perez'
+            value={lastName}
+            onChangeText={setLastName}
+          />
+            </View>
+
+          <CustomInput
+            label='Telefono'
+            icon='phone-portrait-outline'
+            placeholder='+54 9 11 11111111'
+            value={phone}
+            onChangeText={setPhone}
+          />
+          <CustomInput
+            label='Email'
+            icon='mail-outline'
+            placeholder='ejemplo@email.com'
+            value={email}
+            onChangeText={setEmail}
+          />
+
+          <CustomInput
+            label='Password'
+            icon='lock-closed-outline'
+            placeholder='••••••••••••••••'
+            value={password}
+            onChangeText={setPassword}
+            isPassword
+          />
+
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => {
+              handleRegister()
+            }}
+            disabled={loading}
+          >
+            <Text style={styles.loginButtonText}>
+              {loading ? 'Cargando...' : 'Registrar'}
             </Text>
-            <TouchableOpacity
-              onPress={() => {
-                handleRegister()
+            {!loading && (
+              <Ionicons name='arrow-forward' size={20} color='#FFF' />
+            )}
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              alignSelf: 'center',
+              gap: 7,
+            }}
+          >
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginTop: 10,
+                color: '#666',
               }}
-              style={styles.button}
+              onPress={() => {
+                navigation.navigate('Login')
+              }}
             >
-              <Text style={styles.buttonText}>Crear Cuenta</Text>
-            </TouchableOpacity>
+              ¿Ya tenes una cuenta?
+            </Text>
+
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginTop: 10,
+                color: '#0061D9',
+              }}
+              onPress={() => {
+                navigation.navigate('Login')
+              }}
+            >
+              Ingresa
+            </Text>
           </View>
         </View>
-        <Text
-          style={styles.register}
-          onPress={() => {
-            navigation.navigate('Login')
-          }}
-        >
-          ¿Ya estas registrado?
-        </Text>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
-  fondo: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'white',
-  },
-  back: {
-    margin: 10,
-  },
   container: {
     flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    overflow: 'scroll',
+    backgroundColor: '#FAF9FE',
   },
-  welcome: {
-    color: 'black',
-    fontSize: 35,
-    fontWeight: 600,
-    margin: 10,
-    marginBottom: 0,
-    padding: 0,
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 24,
+    justifyContent: 'space-evenly',
+    
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+  },
+  brandName: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#000',
+    marginTop: 8,
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: '700',
     textAlign: 'center',
-    fontFamily: 'Arial',
-    textShadowColor: 'rgba(0, 0, 0, 0.1)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
+    color: '#1A1A1A',
+    marginBottom: 30,
   },
-  form: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  inputContainer: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    gap: 15,
-    marginBottom: 0,
-  },
-  input: {
-    backgroundColor: 'white',
-    borderRadius: 35,
-    borderWidth: 1,
-    borderColor: 'gray',
-    maxWidth: '80%',
-    minWidth: '50%',
+  subText: {
+    fontSize: 14,
+    color: '#666',
     textAlign: 'center',
-    color: '#333333',
-    marginVertical: 5,
-    overflow: 'scroll',
-    elevation: 7,
-    fontSize: 17,
-    paddingHorizontal: 10,
+    marginBottom: 4,
+    marginTop: 4,
   },
-  buttonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  card: {
+    backgroundColor: '#FFF',
+    borderRadius: 24,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 5,
   },
-  button: {
-    backgroundColor: '#09f',
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 35,
 
+  loginButton: {
+    backgroundColor: '#0061D9',
+    borderRadius: 12,
+    height: 56,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 7,
+    gap: 8,
+    marginTop: 10,
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 700,
-  },
-  terms: {
-    maxWidth: '80%',
-    color: 'gray',
-    textAlign: 'center',
-    fontSize: 12,
-    marginBottom: 15,
-  },
-  register: {
-    fontSize: 15,
-    color: 'black',
-    textDecorationLine: 'underline',
-    textAlign: 'center',
-    marginBottom: 20,
+  loginButtonText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 })
