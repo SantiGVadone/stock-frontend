@@ -122,13 +122,12 @@
 - ✅ Aislar la funcion handleSubstract
 - 🔴 Revisar un error del backend al utilizar handleAdd o handleSubstract
 - ✅ Mejorar la RegisterScreen
-- Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
+- 🔴 Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
 - Actualizar la pantalla de AddProduct
 - Actualizar la pantalla de EditProduct
 - Hacer funcional la pantalla de Profile
   - Crear un apartado para la eleccion de tiendas
-- Hacer funcional la pantalla de Filters
-- Agregar un Logo a la APP
+- ✅ Agregar un Logo a la APP
 - Agregar alguna pantalla de bienvenida, con logos y animaciones
 
 # App de gestion de Stock
