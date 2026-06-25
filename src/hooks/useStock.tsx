@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
 
-import { guardarToken, obtenerToken } from '../utility/auth'
+import { guardarToken, obtenerToken, guardarStores } from '../utility/auth'
 const API_URL = 'https://api.vadonedev.com.ar/api'
 
 interface Product {
@@ -84,6 +84,7 @@ export const useStock = () => {
 
       const data = await response.json()
       guardarToken(data.token)
+      guardarStores(data.user.stores)
       setLoading(false)
       navigation.navigate('PickStore')
     } catch (err: any) {
@@ -188,21 +189,22 @@ export const useStock = () => {
   const editProduct = async (newProduct: Product) => {
     try {
       setLoading(true)
-      const response = await fetch(
-        `http://192.168.1.39:3000/api/products/${newProduct.id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: newProduct.name,
-            description: newProduct.description,
-            quantity: Number(newProduct.quantity),
-            category: newProduct.category,
-          }),
+      const token = await obtenerToken()
+      const response = await fetch(`${API_URL}/products/${newProduct.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'x-store-id': '1',
         },
-      )
+        body: JSON.stringify({
+          name: newProduct.name,
+          description: newProduct.description,
+          quantity: Number(newProduct.quantity),
+          category: newProduct.category,
+        }),
+      })
       if (!response.ok) {
         const errorDetail = await response.json()
         console.log('Error al guardar en la base de datos', errorDetail)
