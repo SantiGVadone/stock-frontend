@@ -37,7 +37,7 @@ export function Login() {
       >
         <View style={styles.logoContainer}>
           <Image
-            source={{ uri: '../../../assets/icon.png' }} // Logo Pro
+            source={{ uri: '../../../assets/icon.png' }}
             style={styles.logo}
             resizeMode='contain'
           />
