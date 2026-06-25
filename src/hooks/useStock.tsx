@@ -3,9 +3,7 @@ import { useState, useEffect } from 'react'
 
 import { guardarStores, guardarToken, obtenerStores, obtenerToken } from '../utility/auth'
 const API_URL = 'https://api.vadonedev.com.ar/api'
-// const API_URL = 'http://localhost:3000/api'
-// santiagogabrielvadone@outlook.com
-// santicapo2003
+
 
 interface Product {
   id: number
