@@ -1,131 +1,133 @@
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { useEffect, useState } from 'react'
+import {
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { obtenerStores, Store } from '../../utility/auth' // Importamos el tipo Store que creamos antes
+import { useStock } from '../../hooks/useStock'
+import { Image } from 'react-native'
 
+import { useNavigation } from '@react-navigation/native'
 export const PickStore = () => {
+  const [stores, setStores] = useState<Store[] | null>(null)
+  const { refresh, loading } = useStock()
   const navigation = useNavigation<any>()
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      const datosTiendas = await obtenerStores()
+      setStores(datosTiendas)
+    }
+    cargarDatos()
+  }, [])
+
+  if (stores === null) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size='large' color='#0061D9' />
+      </View>
+    )
+  }
+
+  const handleSelect = (id: number) => {
+    // Guardar en el useContext la x-store-id = id
+    navigation.navigate('Stock')
+  }
+
   return (
     <SafeAreaProvider style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Seleccione una</Text>
-        <Text
-          style={[
-            styles.headerTitle,
-            { color: '#0061D9', fontSize: 30, paddingHorizontal: 10 },
-          ]}
-        >
-          Tienda
+      <View style={styles.logoContainer}>
+        <Image
+          source={{ uri: '../../../assets/icono.png' }}
+          style={styles.logo}
+          resizeMode='contain'
+        />
+      </View>
+      <View style={styles.logoContainer}>
+        <Text style={styles.brandName}>StockPro</Text>
+        <Text style={styles.subText}>Gestión de stock inteligente</Text>
+        <Text style={[styles.brandName, { fontSize: 20 }]}>
+          Seleccione una de sus tiendas
         </Text>
       </View>
-      <View>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => {
-            /* Aca tengo que setear el header x-store-id */
-          }}
-        >
-          <View style={styles.productCard}>
-            <View
-              style={[
-                styles.productIcon,
-                {
-                  backgroundColor: '#F0F4FF',
-                },
-              ]}
-            >
-              <Ionicons name={'beaker-outline'} size={24} color={'#0061D9'} />
-            </View>
-            <View style={styles.productInfo}>
-              <Text
-                style={styles.productName}
-                numberOfLines={1}
-                ellipsizeMode='tail'
+      <FlatList
+        data={stores}
+        onRefresh={refresh}
+        refreshing={loading}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ paddingHorizontal: 20 }}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              console.log('Seleccionaste la tienda:', item.name)
+              handleSelect(item.id)
+            }}
+          >
+            <View style={styles.productCard}>
+              <View
+                style={[styles.productIcon, { backgroundColor: '#F0F4FF' }]}
               >
-                {'Nombre'}
-              </Text>
-              <Text
-                style={styles.productDesc}
-                numberOfLines={2}
-                ellipsizeMode='tail'
-              >
-                {'Description'}
-              </Text>
+                <Ionicons name='storefront-outline' size={24} color='#0061D9' />
+              </View>
+
+              <View style={styles.productInfo}>
+                <Text
+                  style={styles.productName}
+                  numberOfLines={2}
+                  ellipsizeMode='tail'
+                >
+                  {item.name}
+                </Text>
+              </View>
+
+              <View style={styles.qtyContainer}>
+                <Text style={[styles.rolValue, { color: '#0061D9' }]}>
+                  {item.rol.toUpperCase()}
+                </Text>
+              </View>
             </View>
-            <View style={styles.qtyContainer}>
-              <Text
-                style={[
-                  styles.qtyValue,
-                  {
-                    color: '#0061D9',
-                  },
-                ]}
-              >
-                {'Quantity'}
-              </Text>
-              <Text style={styles.qtyLabel}>{'CANT.'}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
+          </TouchableOpacity>
+        )}
+      />
       <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => {
-          navigation.navigate('Stock')
-        }}
+        style={styles.button}
+        onPress={() => {}}
+        disabled={loading}
       >
-        <Text style={styles.loginButtonText}>Ir al Stock</Text>
+        <Text style={styles.buttonText}>Crear Tienda</Text>
+        <Ionicons name='arrow-forward' size={25} color='#FFF' />
       </TouchableOpacity>
     </SafeAreaProvider>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  loading: {
     flex: 1,
-    backgroundColor: '#FAF9FE',
-    paddingTop: 35,
-  },
-  header: {
-    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    height: 70,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1A1A1A',
-    alignSelf: 'center',
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    padding: 24,
-    justifyContent: 'center',
+    backgroundColor: '#FAF9FE',
   },
   logoContainer: {
     alignItems: 'center',
     marginBottom: 32,
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 250,
+    height: 250,
   },
   brandName: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#000',
     marginTop: 8,
-  },
-  welcomeText: {
-    fontSize: 24,
-    fontWeight: '700',
-    textAlign: 'center',
-    color: '#1A1A1A',
-    marginBottom: 30,
   },
   subText: {
     fontSize: 14,
@@ -134,82 +136,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginTop: 4,
   },
-  card: {
-    backgroundColor: '#FFF',
-    borderRadius: 24,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 5,
-  },
-
-  loginButton: {
-    backgroundColor: '#0061D9',
-    borderRadius: 12,
-    height: 56,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    marginTop: 10,
-  },
-  loginButtonText: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  userButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: '#F0F4FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerRight: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F5F6F8',
-    borderRadius: 24,
-    height: 48,
-    overflow: 'hidden',
-  },
-  searchIconButton: {
-    width: 48,
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  searchInput: { flex: 1, fontSize: 16, color: '#1A1A1A', paddingRight: 15 },
-  filterButton: {
-    width: 48,
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  content: { flex: 1, padding: 20 },
-  listHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#666',
-    letterSpacing: 1,
-  },
-  badge: {
-    backgroundColor: '#0061D9',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  badgeText: { color: '#FFF', fontSize: 12, fontWeight: 'bold' },
+  container: { flex: 1, backgroundColor: '#FAF9FE', paddingTop: 25 },
   productCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -230,15 +157,15 @@ const styles = StyleSheet.create({
   },
   productInfo: { flex: 1 },
   productName: { fontSize: 18, fontWeight: 'bold', color: '#1A1A1A' },
-  productDesc: { fontSize: 14, color: '#666', marginTop: 2 },
   qtyContainer: { alignItems: 'flex-end' },
-  qtyValue: { fontSize: 24, fontWeight: 'bold' },
-  qtyLabel: { fontSize: 10, fontWeight: 'bold', color: '#999' },
-  fab: {
+  rolValue: { fontSize: 18, fontWeight: 'bold', letterSpacing: 0.5 },
+
+  button: {
     position: 'absolute',
+    flexDirection: 'row',
     bottom: 30,
-    right: 30,
-    width: 64,
+    alignSelf: 'center',
+    width: '80%',
     height: 64,
     borderRadius: 32,
     backgroundColor: '#0061D9',
@@ -249,5 +176,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 8,
+    gap: 10,
+  },
+  buttonText: {
+    textAlignVertical: 'center',
+    color: '#FFF',
+    fontSize: 25,
+    fontWeight: 'bold',
   },
 })
