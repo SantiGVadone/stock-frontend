@@ -107,9 +107,9 @@
 - Añadir la pantalla de ProductDetail nueva
   - Poder eliminar desde ese pantalla
   - Poder editar desde esa pantalla
-- Corregir las funciones que estan en el useStock.tsx
+- ✅ Corregir las funciones que estan en el useStock.tsx
   - ✅ Agregar
-  - Editar
+  - ✅ Editar
   - ✅ Eliminar
   - ✅ FetchAll
   - ✅ Nueva funcion de Login

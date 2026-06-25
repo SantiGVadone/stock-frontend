@@ -1,11 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
 
-import { guardarToken, obtenerToken } from '../utility/auth'
+import { guardarStores, guardarToken, obtenerStores, obtenerToken } from '../utility/auth'
 const API_URL = 'https://api.vadonedev.com.ar/api'
-// const API_URL = 'http://localhost:3000/api'
-// santiagogabrielvadone@outlook.com
-// santicapo2003
+
 
 interface Product {
   id: number
@@ -49,8 +47,10 @@ export const useStock = () => {
 
       const data = await response.json()
       guardarToken(data.token)
+      guardarStores(data.user.stores)
+
       setLoading(false)
-      navigation.navigate('Stock')
+      navigation.navigate('PickStore')
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -153,12 +153,16 @@ export const useStock = () => {
   const editProduct = async (newProduct: Product) => {
     try {
       setLoading(true)
+      const token = await obtenerToken()
       const response = await fetch(
-        `http://192.168.1.39:3000/api/products/${newProduct.id}`,
+        `${API_URL}/products/${newProduct.id}`,
         {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'x-store-id': '1',
           },
           body: JSON.stringify({
             name: newProduct.name,
