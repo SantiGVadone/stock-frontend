@@ -1,5 +1,6 @@
 import * as SecureStore from 'expo-secure-store'
 const TOKEN_KEY = 'user_session_token'
+const STORE_KEY = 'user_stores'
 
 export const guardarToken = async (token: string) => {
   try {
@@ -26,5 +27,46 @@ export const eliminarToken = async () => {
     console.log('Token eliminado')
   } catch (error) {
     console.error('Error al eliminar el token:', error)
+  }
+}
+
+export interface Store {
+  id: number
+  name: string
+  rol: string
+}
+
+
+export const guardarStores = async (stores: Store[]): Promise<void>  => { 
+  try {
+    const storesString = JSON.stringify(stores)
+    await SecureStore.setItemAsync(STORE_KEY, storesString)
+    console.log('Stores guardadas con éxito')
+  } catch (error) {
+    console.error('Error al guardar las stores:', error)
+  }
+}
+
+// Obtener: Lee el string y lo parsea de vuelta a objeto
+export const obtenerStores = async (): Promise<Store[] | null> => {
+  try {
+    const storesString = await SecureStore.getItemAsync(STORE_KEY)
+    if (storesString) {
+      return JSON.parse(storesString) as Store[]
+    }
+    return null
+  } catch (error) {
+    console.error('Error al obtener las stores:', error)
+    return null
+  }
+}
+
+// (Opcional) Te agrego la de eliminar por si la necesitas al cerrar sesión
+export const eliminarStores = async (): Promise<void> => {
+  try {
+    await SecureStore.deleteItemAsync(STORE_KEY)
+    console.log('Stores eliminadas')
+  } catch (error) {
+    console.error('Error al eliminar las stores:', error)
   }
 }
