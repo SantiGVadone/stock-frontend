@@ -32,6 +32,7 @@ export const useStock = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const navigation = useNavigation<any>()
+  const { token, storeId } = useAuth()
 
   const register = async (user: RegisterUser) => {
     try {
@@ -66,7 +67,6 @@ export const useStock = () => {
   const fetchStock = async () => {
     try {
       setLoading(true)
-      const { token, storeId } = useAuth()
       const response = await fetch(`${API_URL}/products`, {
         method: 'GET',
         headers: {
@@ -95,7 +95,7 @@ export const useStock = () => {
   const removeProduct = async (id: number) => {
     try {
       setLoading(true)
-      const { token, storeId } = useAuth()
+
       const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
         headers: {
@@ -125,7 +125,7 @@ export const useStock = () => {
     }
     try {
       setLoading(true)
-      const { token, storeId } = useAuth()
+
       const response = await fetch(`${API_URL}/products`, {
         method: 'POST',
         headers: {
@@ -158,7 +158,7 @@ export const useStock = () => {
   const editProduct = async (newProduct: Product) => {
     try {
       setLoading(true)
-      const { token, storeId } = useAuth()
+
       const response = await fetch(`${API_URL}/products/${newProduct.id}`, {
         method: 'PATCH',
         headers: {
@@ -190,7 +190,6 @@ export const useStock = () => {
   const handleAdd = async (product: Product) => {
     setLoading(true)
     const newQuantity = product.quantity + 1
-    const { token, storeId } = useAuth()
 
     try {
       const response = await fetch(`${API_URL}/products/${product.id}`, {
@@ -224,7 +223,6 @@ export const useStock = () => {
   const handleSubstract = async (product: Product) => {
     setLoading(true)
     const newQuantity = product.quantity - 1
-    const { token, storeId } = useAuth()
 
     try {
       const response = await fetch(`${API_URL}/products/${product.id}`, {
