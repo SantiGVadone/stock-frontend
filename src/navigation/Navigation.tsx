@@ -8,7 +8,6 @@ import { Login } from './screens/Login'
 import { Register } from './screens/Register'
 import { PickStore } from './screens/PickStore'
 import Profile from './screens/Profile'
-import { PickStore } from './screens/PickStore'
 import { RequireAuth } from './RequireAuth'
 // import Filters from './screens/Filters'
 
