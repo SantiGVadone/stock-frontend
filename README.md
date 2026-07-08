@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # App de gestion de Stock
 
 > [!NOTE]
