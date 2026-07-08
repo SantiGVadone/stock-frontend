@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
-export const CustomInput = ({
+export const CustomInputMid = ({
   label,
   icon,
   value,
@@ -56,7 +56,7 @@ export const CustomInput = ({
 }
 
 const styles = StyleSheet.create({
-  inputGroup: { marginBottom: 20, width: '100%' },
+  inputGroup: { marginBottom: 20, width: '45%' },
   label: { fontSize: 14, fontWeight: '600', color: '#444', marginBottom: 8 },
   inputContainer: {
     flexDirection: 'row',

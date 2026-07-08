@@ -36,8 +36,7 @@ export interface Store {
   rol: string
 }
 
-
-export const guardarStores = async (stores: Store[]): Promise<void>  => { 
+export const guardarStores = async (stores: Store[]): Promise<void> => {
   try {
     const storesString = JSON.stringify(stores)
     await SecureStore.setItemAsync(STORE_KEY, storesString)
@@ -47,7 +46,6 @@ export const guardarStores = async (stores: Store[]): Promise<void>  => {
   }
 }
 
-// Obtener: Lee el string y lo parsea de vuelta a objeto
 export const obtenerStores = async (): Promise<Store[] | null> => {
   try {
     const storesString = await SecureStore.getItemAsync(STORE_KEY)
@@ -61,7 +59,6 @@ export const obtenerStores = async (): Promise<Store[] | null> => {
   }
 }
 
-// (Opcional) Te agrego la de eliminar por si la necesitas al cerrar sesión
 export const eliminarStores = async (): Promise<void> => {
   try {
     await SecureStore.deleteItemAsync(STORE_KEY)

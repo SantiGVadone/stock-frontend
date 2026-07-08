@@ -8,10 +8,13 @@ import { Login } from './screens/Login'
 import { Register } from './screens/Register'
 import { PickStore } from './screens/PickStore'
 import Profile from './screens/Profile'
-import Filters from './screens/Filters'
+import { PickStore } from './screens/PickStore'
+import { RequireAuth } from './RequireAuth'
+// import Filters from './screens/Filters'
 
 const RootStack = createNativeStackNavigator({
   screens: {
+    // Publicas
     Register: {
       screen: Register,
       options: {
@@ -30,39 +33,62 @@ const RootStack = createNativeStackNavigator({
         headerShown: false,
       },
     },
+
+    // Protegidas (requieren Login)
+
     Stock: {
-      screen: Stock,
+      screen: () => (
+        <RequireAuth>
+          <Stock />
+        </RequireAuth>
+      ),
       options: {
         headerShown: false,
       },
     },
-    Filters: {
-      screen: Filters,
-      options: {
-        headerShown: false,
-      },
-    },
+    // Filters: {
+    //   screen: Filters,
+    //   options: {
+    //     headerShown: false,
+    //   },
+    // },
     Profile: {
-      screen: Profile,
+      screen: () => (
+        <RequireAuth>
+          <Profile />
+        </RequireAuth>
+      ),
       options: {
         headerShown: false,
       },
     },
     ProductDetail: {
-      screen: ProductDetail,
+      screen: () => (
+        <RequireAuth>
+          <ProductDetail />
+        </RequireAuth>
+      ),
       options: {
         title: 'Detalle del Producto',
       },
     },
     AddProduct: {
-      screen: AddProduct,
+      screen: () => (
+        <RequireAuth>
+          <AddProduct />
+        </RequireAuth>
+      ),
       options: {
         presentation: 'transparentModal',
         headerShown: false,
       },
     },
     EditProduct: {
-      screen: EditProduct,
+      screen: () => (
+        <RequireAuth>
+          <EditProduct />
+        </RequireAuth>
+      ),
       options: {
         presentation: 'transparentModal',
         headerShown: false,

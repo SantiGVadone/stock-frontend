@@ -1,9 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
 import { useState, useEffect } from 'react'
+import { useAuth } from '../context/AuthContext'
 
-import { guardarStores, guardarToken, obtenerStores, obtenerToken } from '../utility/auth'
 const API_URL = 'https://api.vadonedev.com.ar/api'
-
 
 interface Product {
   id: number
@@ -20,39 +19,46 @@ interface AddProduct {
   category: string
 }
 
+interface RegisterUser {
+  name: string
+  lastName: string
+  email: string
+  phone: string
+  password: string
+}
+
 export const useStock = () => {
   const [stock, setStock] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const navigation = useNavigation<any>()
+  const { token, storeId } = useAuth()
 
-  const login = async (email: string, password: string) => {
+  const register = async (user: RegisterUser) => {
     try {
       setLoading(true)
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          email: email,
-          password: password,
+          name: user.name,
+          lastName: user.lastName,
+          phone: user.phone,
+          email: user.email,
+          password: user.password,
         }),
       })
-
       if (!response.ok) {
-        throw new Error('Error en la peticion de login')
+        const errorDetail = await response.text()
+        console.error(errorDetail)
+        throw new Error('Error en la peticion de register')
       }
-
-      const data = await response.json()
-      guardarToken(data.token)
-      guardarStores(data.user.stores)
-
-      setLoading(false)
-      navigation.navigate('PickStore')
-    } catch (err: any) {
-      setError(err.message)
+      navigation.navigate('Login')
+    } catch (error: any) {
+      setError(error.message)
     } finally {
       setLoading(false)
     }
@@ -61,14 +67,13 @@ export const useStock = () => {
   const fetchStock = async () => {
     try {
       setLoading(true)
-      const token = await obtenerToken()
       const response = await fetch(`${API_URL}/products`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
-          'x-store-id': '1',
+          'x-store-id': storeId?.toString() || '-1',
         },
       })
       if (!response.ok) throw new Error('Error al conectar con el servidor')
@@ -90,13 +95,13 @@ export const useStock = () => {
   const removeProduct = async (id: number) => {
     try {
       setLoading(true)
-      const token = await obtenerToken()
+
       const response = await fetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
-          'x-store-id': '1',
+          'x-store-id': storeId?.toString() || '-1',
         },
       })
       setLoading(false)
@@ -120,14 +125,14 @@ export const useStock = () => {
     }
     try {
       setLoading(true)
-      const token = await obtenerToken()
+
       const response = await fetch(`${API_URL}/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
-          'x-store-id': '1',
+          'x-store-id': storeId?.toString() || '-1',
         },
         body: JSON.stringify({
           name: product.name,
@@ -153,25 +158,22 @@ export const useStock = () => {
   const editProduct = async (newProduct: Product) => {
     try {
       setLoading(true)
-      const token = await obtenerToken()
-      const response = await fetch(
-        `${API_URL}/products/${newProduct.id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
+
+      const response = await fetch(`${API_URL}/products/${newProduct.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
-          'x-store-id': '1',
-          },
-          body: JSON.stringify({
-            name: newProduct.name,
-            description: newProduct.description,
-            quantity: Number(newProduct.quantity),
-            category: newProduct.category,
-          }),
+          'x-store-id': storeId?.toString() || '-1',
         },
-      )
+        body: JSON.stringify({
+          name: newProduct.name,
+          description: newProduct.description,
+          quantity: Number(newProduct.quantity),
+          category: newProduct.category,
+        }),
+      })
       if (!response.ok) {
         const errorDetail = await response.json()
         console.log('Error al guardar en la base de datos', errorDetail)
@@ -185,9 +187,74 @@ export const useStock = () => {
       navigation.navigate('Stock')
     }
   }
+  const handleAdd = async (product: Product) => {
+    setLoading(true)
+    const newQuantity = product.quantity + 1
+
+    try {
+      const response = await fetch(`${API_URL}/products/${product.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'x-store-id': storeId?.toString() || '-1',
+        },
+        body: JSON.stringify({
+          name: product.name,
+          description: product.description,
+          category: product.category,
+          quantity: Number(newQuantity),
+        }),
+      })
+      if (!response.ok) {
+        const errorDetail = await response.text()
+        console.error('Error al guardar en la Base de Datos: ', errorDetail)
+      }
+      setError(null)
+    } catch (e) {
+      setError('Error en handleAdd')
+      console.error('Error de conexion con el servidor', e)
+    } finally {
+      setLoading(false)
+      fetchStock()
+    }
+  }
+
+  const handleSubstract = async (product: Product) => {
+    setLoading(true)
+    const newQuantity = product.quantity - 1
+
+    try {
+      const response = await fetch(`${API_URL}/products/${product.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'x-store-id': storeId?.toString() || '-1',
+        },
+        body: JSON.stringify({
+          name: product.name,
+          description: product.description,
+          category: product.category,
+          quantity: Number(newQuantity),
+        }),
+      })
+      if (!response.ok) {
+        const errorDetail = await response.text()
+        console.error('Error al guardar en la Base de Datos: ', errorDetail)
+      }
+      setError(null)
+    } catch (e) {
+      setError('Error en handleAdd')
+      console.error('Error de conexion con el servidor', e)
+    } finally {
+      setLoading(false)
+      fetchStock()
+    }
+  }
 
   return {
-    login,
+    register,
     stock,
     loading,
     error,
@@ -195,5 +262,7 @@ export const useStock = () => {
     removeProduct,
     addProduct,
     editProduct,
+    handleAdd,
+    handleSubstract,
   }
 }

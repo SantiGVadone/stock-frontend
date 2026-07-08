@@ -9,10 +9,6 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-/**
- * FilterDrawer.tsx
- * Menú lateral de filtros para el inventario
- */
 export default function Filters({ onClose, onApply }: any) {
   const [selectedCategory, setSelectedCategory] = useState('Todas')
   const [stockStatus, setStockStatus] = useState('Todos')

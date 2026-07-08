@@ -100,7 +100,7 @@ export function Stock() {
             )}
           </Animated.View>
 
-          {!isSearchExpanded && (
+          {/*!isSearchExpanded && (
             <TouchableOpacity
               style={styles.filterButton}
               onPress={() => {
@@ -109,7 +109,7 @@ export function Stock() {
             >
               <Ionicons name='filter-outline' size={24} color='#1A1A1A' />
             </TouchableOpacity>
-          )}
+          ) */}
         </View>
       </View>
 

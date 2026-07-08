@@ -12,17 +12,18 @@ import { CustomInput } from '../../components/CustomInput'
 import { useNavigation } from '@react-navigation/native'
 
 import { Ionicons } from '@expo/vector-icons'
-import { useStock } from '../../hooks/useStock'
+import { useAuth } from '../../context/AuthContext'
 
 export function Login() {
   const navigation = useNavigation<any>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { login, loading } = useStock()
+  const { login, isLoading } = useAuth()
 
   const handleLogin = async () => {
     try {
-      login(email, password)
+      await login(email, password)
+      navigation.navigate('PickStore')
     } catch (error) {
       console.error('hubo un error en el login', error)
       // aca tiene que ir un toasmessage
@@ -37,7 +38,7 @@ export function Login() {
       >
         <View style={styles.logoContainer}>
           <Image
-            source={{ uri: '../../../assets/icon.png' }} // Logo Pro
+            source={{ uri: '../../../assets/icon.png' }}
             style={styles.logo}
             resizeMode='contain'
           />
@@ -54,6 +55,9 @@ export function Login() {
             placeholder='ejemplo@email.com'
             value={email}
             onChangeText={setEmail}
+            keyboardType='email-address'
+            autoCapitalize='none'
+            returnKeyType='next'
           />
 
           <CustomInput
@@ -63,6 +67,9 @@ export function Login() {
             value={password}
             onChangeText={setPassword}
             isPassword
+            keyboardType='default'
+            autoCapitalize='none'
+            returnKeyType='next'
           />
 
           <TouchableOpacity
@@ -70,12 +77,12 @@ export function Login() {
             onPress={() => {
               handleLogin()
             }}
-            disabled={loading}
+            disabled={isLoading}
           >
             <Text style={styles.loginButtonText}>
-              {loading ? 'Cargando...' : 'Ingresar'}
+              {isLoading ? 'Cargando...' : 'Ingresar'}
             </Text>
-            {!loading && (
+            {!isLoading && (
               <Ionicons name='arrow-forward' size={20} color='#FFF' />
             )}
           </TouchableOpacity>
