@@ -22,7 +22,7 @@
 * ✅ Revisar como se comporta el campo de cantidad en la pantalla de EditProduct
 * ✅ Revisar como se comporta la App con el teclado (que no tape nada, y que se ajuste al despliegue de este)
 
-- Este fue solucionado usando la prop numberOfNails={} la cual dice cuantas lineas tiene que ocupar el text
+- Este fue solucionado usando la propiedad numberOfNails={} la cual dice cuantas lineas tiene que ocupar el text
 
 * ✅ Revisar el comportamiento de la pantalla de Stock con los nombres o las descripciones largas (que no se agrande la card, que simplemente se pongan los '...' cuando no entre en el espacio que ya esta fijado)
 
@@ -261,4 +261,3 @@
 - Hacer funcional la pantalla de Filters
 - Agregar un Logo a la APP
 - Agregar alguna pantalla de bienvenida, con logos y animaciones
-  > > > > > > > 8e7c3265544df31011c8e71bfe260830f45ad31f

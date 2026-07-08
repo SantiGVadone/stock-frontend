@@ -14,9 +14,11 @@ import { useStock } from '../../hooks/useStock'
 import { Image } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'
+import { useAuth } from '../../context/AuthContext'
 export const PickStore = () => {
   const [stores, setStores] = useState<Store[] | null>(null)
   const { refresh, loading } = useStock()
+  const { selectStore } = useAuth()
   const navigation = useNavigation<any>()
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export const PickStore = () => {
   }
 
   const handleSelect = (id: number) => {
-    // Guardar en el useContext la x-store-id = id
+    selectStore(id)
     navigation.navigate('Stock')
   }
 
