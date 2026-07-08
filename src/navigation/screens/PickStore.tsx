@@ -9,27 +9,18 @@ import {
 } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
-import { obtenerStores, Store } from '../../utility/auth' // Importamos el tipo Store que creamos antes
+import { Store } from '../../utility/auth' // Importamos el tipo Store que creamos antes
 import { useStock } from '../../hooks/useStock'
 import { Image } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'
 import { useAuth } from '../../context/AuthContext'
 export const PickStore = () => {
-  const [stores, setStores] = useState<Store[] | null>(null)
   const { refresh, loading } = useStock()
-  const { selectStore } = useAuth()
   const navigation = useNavigation<any>()
+  const { stores, selectStore } = useAuth()
 
-  useEffect(() => {
-    const cargarDatos = async () => {
-      const datosTiendas = await obtenerStores()
-      setStores(datosTiendas)
-    }
-    cargarDatos()
-  }, [])
-
-  if (stores === null) {
+  if (!stores) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size='large' color='#0061D9' />
