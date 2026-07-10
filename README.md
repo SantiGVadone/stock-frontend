@@ -43,19 +43,19 @@
 
 # Futuras tareas (8/6/26)
 
-- LoginPage:
+- ✅ LoginPage:
   - ✅ Hacer que el login haga la peticion HTTP
   - ✅ Guardar el Token
-  - Seleccionar una tienda de las que devuelve la peticion de login
-  - Poner el ID de esa tienda en el x-store-id
-  - Si el usuario se logeo correctamente, en un useContext se tiene que guardar:
-    - Si esta logeado
-    - En que tienda esta logeado
-    - A que tiendas tiene acceso
-    - Data del usuario: nombre y todo eso
-- RegisterPage:
-  - Hacer que el register haga la peticion HTTP
-  - Si salio bien redirigir a la LoginPage
+  - ✅ Seleccionar una tienda de las que devuelve la peticion de login
+  - ✅ Poner el ID de esa tienda en el x-store-id
+  - ✅ Si el usuario se logeo correctamente, en un useContext se tiene que guardar:
+    - ✅ Si esta logeado
+    - ✅ En que tienda esta logeado
+    - ✅ A que tiendas tiene acceso
+    - ✅ Data del usuario: nombre y todo eso
+- ✅ RegisterPage:
+  - ✅ Hacer que el register haga la peticion HTTP
+  - ✅ Si salio bien redirigir a la LoginPage
 - ✅ Agregar el icono de Usuario en la pantalla principal
   - Donde quiero que se pueda invitar a un empleado (en caso de ser JEFE)
   - Quiero que se pueda renunciar
@@ -71,7 +71,7 @@
 
 - ✅ Agregar un motor de busqueda en la pantalla de Stock
 - ✅ Solucionar el formato del boton de eliminar dentro de la pantalla de Stock
-- Que la pantalla de Stock se actualice al volver a esta
+- ✅ Que la pantalla de Stock se actualice al volver a esta
 
 # Futura version 2.0
 
@@ -81,18 +81,22 @@
 
 - ✅ Que la SearchBar este un poco mas abajo
 - ✅ Agregar una animation a la SearchBar para que se Expanda y se Comprima
-- Cambiar las pestañas de CreateProduct y de EditProduct
+- ❗❗❗Cambiar las pestañas de CreateProduct y de EditProduct
 - ✅ Agregar un Label para cada Input en la pantalla de Login
 - ✅ Agregar boton para hacer visible la contraseña
 
 # Futura V1.4
 
-- Se tiene que poder gestionar las tiendas
-- Login
-- useContext para el login
-- useContext para la tienda seleccionada
+- Crear una tienda
+- Editar una tienda
+- ✅ Ver todas las tiendas
+- Eliminar una tienda
+- ✅ Login
+- ✅ useContext para el login
+- ✅ useContext para la tienda seleccionada
 - poder cambiar de tinda
-- poder gestionar la cuenta (eliminar, cerrar sesion)
+- poder eliminar la cuenta
+- ✅ poder cerrar sesion
 
 # Hoy 16/6/26
 
@@ -106,9 +110,9 @@
 - ✅ Añadir la pantalla de ProductDetail nueva
   - ✅ Poder eliminar desde ese pantalla
   - ✅ Poder editar desde esa pantalla
-- Corregir las funciones que estan en el useStock.tsx
+- ✅ Corregir las funciones que estan en el useStock.tsx
   - ✅ Agregar
-  - Editar
+  - ✅ Editar
   - ✅ Eliminar
   - ✅ FetchAll
   - ✅ Nueva funcion de Login
@@ -120,10 +124,11 @@
 - ✅ Aislar la funcion handleSubstract
 - 🔴 Revisar un error del backend al utilizar handleAdd o handleSubstract
 - ✅ Mejorar la RegisterScreen
-- 🔴 Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
-- Actualizar la pantalla de AddProduct
-- Actualizar la pantalla de EditProduct
+- ✅ Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
+  - Crear la pantalla de Crear una tienda nueva
+- 🟡 Actualizar la pantalla de AddProduct
+- 🟡 Actualizar la pantalla de EditProduct
 - Hacer funcional la pantalla de Profile
-  - Crear un apartado para la eleccion de tiendas
+  - Crear un apartado para la eleccion de tiendas dentro de Profile
 - ✅ Agregar un Logo a la APP
 - Agregar alguna pantalla de bienvenida, con logos y animaciones

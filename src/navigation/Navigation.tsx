@@ -9,6 +9,7 @@ import { Register } from './screens/Register'
 import { PickStore } from './screens/PickStore'
 import Profile from './screens/Profile'
 import { RequireAuth } from './RequireAuth'
+import { AddStore } from './screens/AddStore'
 // import Filters from './screens/Filters'
 
 const RootStack = createNativeStackNavigator({
@@ -32,12 +33,18 @@ const RootStack = createNativeStackNavigator({
         headerShown: false,
       },
     },
+    AddStore: {
+      screen: AddStore,
+      options: {
+        headerShown: false,
+      },
+    },
 
     // Protegidas (requieren Login)
 
     Stock: {
-      screen: () => (
-        <RequireAuth>
+      screen: (props: any) => (
+        <RequireAuth {...props}>
           <Stock />
         </RequireAuth>
       ),
@@ -52,8 +59,8 @@ const RootStack = createNativeStackNavigator({
     //   },
     // },
     Profile: {
-      screen: () => (
-        <RequireAuth>
+      screen: (props: any) => (
+        <RequireAuth {...props}>
           <Profile />
         </RequireAuth>
       ),
@@ -62,8 +69,8 @@ const RootStack = createNativeStackNavigator({
       },
     },
     ProductDetail: {
-      screen: () => (
-        <RequireAuth>
+      screen: (props: any) => (
+        <RequireAuth {...props}>
           <ProductDetail />
         </RequireAuth>
       ),
@@ -72,8 +79,8 @@ const RootStack = createNativeStackNavigator({
       },
     },
     AddProduct: {
-      screen: () => (
-        <RequireAuth>
+      screen: (props: any) => (
+        <RequireAuth {...props}>
           <AddProduct />
         </RequireAuth>
       ),
@@ -83,8 +90,8 @@ const RootStack = createNativeStackNavigator({
       },
     },
     EditProduct: {
-      screen: () => (
-        <RequireAuth>
+      screen: (props: any) => (
+        <RequireAuth {...props}>
           <EditProduct />
         </RequireAuth>
       ),

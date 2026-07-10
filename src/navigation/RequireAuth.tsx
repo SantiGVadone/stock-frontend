@@ -1,8 +1,12 @@
 import { useAuth } from '../context/AuthContext'
 import { useNavigation } from '@react-navigation/native'
 import { View, ActivityIndicator } from 'react-native'
+import { Children, isValidElement, cloneElement } from 'react'
 
-export const RequireAuth = ({ children }: { children: React.ReactNode }) => {
+export const RequireAuth = ({
+  children,
+  ...props
+}: { children: React.ReactNode } & Record<string, any>) => {
   const { isAuthenticated, isLoading } = useAuth()
   const navigation = useNavigation<any>()
 
@@ -19,5 +23,7 @@ export const RequireAuth = ({ children }: { children: React.ReactNode }) => {
     return null
   }
 
-  return children
+  return Children.map(children, (child) =>
+    isValidElement(child) ? cloneElement(child, props) : child,
+  )
 }

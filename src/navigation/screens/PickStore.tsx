@@ -8,7 +8,6 @@ import {
 } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
-import { Store } from '../../utility/auth' // Importamos el tipo Store que creamos antes
 import { useStock } from '../../hooks/useStock'
 import { Image } from 'react-native'
 
@@ -58,7 +57,6 @@ export const PickStore = () => {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
-              console.log('Seleccionaste la tienda:', item.name)
               handleSelect(item.id)
             }}
           >
@@ -90,7 +88,9 @@ export const PickStore = () => {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {}}
+        onPress={() => {
+          navigation.navigate('AddStore')
+        }}
         disabled={loading}
       >
         <Text style={styles.buttonText}>Crear Tienda</Text>

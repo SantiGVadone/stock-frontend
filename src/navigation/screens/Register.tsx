@@ -7,7 +7,6 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
-  Platform,
 } from 'react-native'
 import { CustomInput } from '../../components/CustomInput'
 import { useNavigation } from '@react-navigation/native'
@@ -15,14 +14,6 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { useStock } from '../../hooks/useStock'
 import { CustomInputMid } from '../../components/CustomInputMid'
-
-// interface RegisterUser {
-//   name: string
-//   lastName: string
-//   email: string
-//   phone: string
-//   password: string
-// }
 
 export function Register() {
   const navigation = useNavigation<any>()

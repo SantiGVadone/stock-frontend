@@ -89,13 +89,17 @@ export const ProductDetail = ({ route }: any) => {
             <View style={styles.stockActions}>
               <TouchableOpacity
                 style={styles.stockCircle}
-                onPress={()=>{handleSubstract(localProduct)}}
+                onPress={() => {
+                  handleSubstract(localProduct)
+                }}
               >
                 <Ionicons name='remove' size={24} color='#1A1A1A' />
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.stockCircle, { backgroundColor: '#0061D9' }]}
-                onPress={()=>{handleAdd(localProduct)}}
+                onPress={() => {
+                  handleAdd(localProduct)
+                }}
               >
                 <Ionicons name='add' size={24} color='#FFF' />
               </TouchableOpacity>

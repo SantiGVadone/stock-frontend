@@ -3,18 +3,26 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
-  Image,
   ScrollView,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useNavigation } from '@react-navigation/native'
+import { useAuth } from '../../context/AuthContext'
 
-/**
- * UserDrawer.tsx
- * Menú lateral de perfil del usuario
- */
 export default function Profile({ onClose }: any) {
+  const navigation = useNavigation<any>()
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      navigation.navigate('Login')
+    } catch (e) {
+      console.error('Hubi un error en el logout', e)
+    }
+  }
   // Datos simulados del usuario (pueden venir de un contexto de Auth)
   const user = {
     name: 'Santi Vadone',
@@ -42,7 +50,7 @@ export default function Profile({ onClose }: any) {
   )
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaProvider style={styles.container}>
       <View style={styles.header}>
         <View style={styles.profileSection}>
           <View style={styles.avatarContainer}>
@@ -53,7 +61,12 @@ export default function Profile({ onClose }: any) {
             <Text style={styles.userRole}>{user.role.toUpperCase()}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => {
+            navigation.goBack()
+          }}
+        >
           <Ionicons name='close' size={24} color='#666' />
         </TouchableOpacity>
       </View>
@@ -98,7 +111,9 @@ export default function Profile({ onClose }: any) {
         <DrawerItem
           icon='log-out-outline'
           label='Cerrar Sesión'
-          onPress={() => {}}
+          onPress={() => {
+            handleLogout()
+          }}
           color='#E53935'
         />
       </ScrollView>
@@ -106,7 +121,7 @@ export default function Profile({ onClose }: any) {
       <View style={styles.footer}>
         <Text style={styles.version}>StockPro v2.4.0</Text>
       </View>
-    </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
 
