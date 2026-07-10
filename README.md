@@ -119,16 +119,24 @@
 
 # To Do From 17/6
 
-- Use context para pasar estado de loging
+- ✅ Use context para pasar estado de loging
 - ✅ Aislar la funcion handleAdd
 - ✅ Aislar la funcion handleSubstract
 - 🔴 Revisar un error del backend al utilizar handleAdd o handleSubstract
 - ✅ Mejorar la RegisterScreen
 - ✅ Crear la PickStoreScreen (pantalla para poder elegir una tienda de las que devuelve el login)
-  - Crear la pantalla de Crear una tienda nueva
+  - ✅ Crear la pantalla de Crear una tienda nueva
 - 🟡 Actualizar la pantalla de AddProduct
 - 🟡 Actualizar la pantalla de EditProduct
 - Hacer funcional la pantalla de Profile
   - Crear un apartado para la eleccion de tiendas dentro de Profile
 - ✅ Agregar un Logo a la APP
 - Agregar alguna pantalla de bienvenida, con logos y animaciones
+
+# To Do 10/07
+
+- Checkear el error del backend al usar el handleAdd o handleSubstract
+- Actualizar AddProduct
+- Actualizar EditProduct
+- Hacer funcional la pantalla de Profile
+- Agregar WelcomeScreens
