@@ -5,7 +5,6 @@ const STORE_KEY = 'user_stores'
 export const guardarToken = async (token: string) => {
   try {
     await SecureStore.setItemAsync(TOKEN_KEY, token)
-    console.log('Token guardado con éxito')
   } catch (error) {
     console.error('Error al guardar el token:', error)
   }
@@ -24,7 +23,6 @@ export const obtenerToken = async () => {
 export const eliminarToken = async () => {
   try {
     await SecureStore.deleteItemAsync(TOKEN_KEY)
-    console.log('Token eliminado')
   } catch (error) {
     console.error('Error al eliminar el token:', error)
   }
@@ -40,7 +38,6 @@ export const guardarStores = async (stores: Store[]): Promise<void> => {
   try {
     const storesString = JSON.stringify(stores)
     await SecureStore.setItemAsync(STORE_KEY, storesString)
-    console.log('Stores guardadas con éxito')
   } catch (error) {
     console.error('Error al guardar las stores:', error)
   }
@@ -62,7 +59,6 @@ export const obtenerStores = async (): Promise<Store[] | null> => {
 export const eliminarStores = async (): Promise<void> => {
   try {
     await SecureStore.deleteItemAsync(STORE_KEY)
-    console.log('Stores eliminadas')
   } catch (error) {
     console.error('Error al eliminar las stores:', error)
   }
