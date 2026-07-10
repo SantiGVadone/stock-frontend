@@ -29,7 +29,7 @@ interface RegisterUser {
 
 export const useStock = () => {
   const [stock, setStock] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const navigation = useNavigation<any>()
   const { token, storeId } = useAuth()
@@ -89,8 +89,10 @@ export const useStock = () => {
   }
 
   useEffect(() => {
-    fetchStock()
-  }, [])
+    if (token && storeId) {
+      fetchStock()
+    }
+  }, [token, storeId])
 
   const removeProduct = async (id: number) => {
     try {
