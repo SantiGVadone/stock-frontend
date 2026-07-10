@@ -31,7 +31,9 @@ export const eliminarToken = async () => {
 export interface Store {
   id: number
   name: string
-  rol: string
+  rol?: string
+  location?: string
+  phone?: string | number
 }
 
 export const guardarStores = async (stores: Store[]): Promise<void> => {

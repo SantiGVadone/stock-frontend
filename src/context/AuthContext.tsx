@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (savedToken) {
           setToken(savedToken)
-          setStores(savedStores)
+          setStores(Array.isArray(savedStores) ? savedStores : [])
           setIsAuthenticated(true)
         }
       } catch (e) {
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       guardarStores(data.user.stores)
       setToken(data.token)
       setUser(data.user)
-      setStores(data.user.stores)
+      setStores(Array.isArray(data.user.stores) ? data.user.stores : [])
       setIsAuthenticated(true)
       setIsLoading(false)
     } catch (err: any) {
@@ -116,7 +116,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addStore = (store: Store) => {
     setStores((prev) => {
-      const updated = prev ? [...prev, store] : [store]
+      const safeStores = Array.isArray(prev) ? prev : []
+      const updated = safeStores ? [...safeStores, store] : [store]
       guardarStores(updated)
       return updated
     })

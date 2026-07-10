@@ -6,8 +6,9 @@ const API_URL = 'https://api.vadonedev.com.ar/api'
 interface Store {
   id: number
   name: string
-  location: string
-  phone: number
+  rol?: string
+  location?: string
+  phone?: string | number
 }
 
 export interface AddNewStore {

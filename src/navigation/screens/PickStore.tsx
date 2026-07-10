@@ -79,7 +79,7 @@ export const PickStore = () => {
 
               <View style={styles.qtyContainer}>
                 <Text style={[styles.rolValue, { color: '#0061D9' }]}>
-                  {item.rol.toUpperCase()}
+                  {item.rol?.toUpperCase() ?? item.location ?? ''}
                 </Text>
               </View>
             </View>
