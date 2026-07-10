@@ -30,6 +30,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>
   selectStore: (storeId: number) => void
   logout: () => Promise<void>
+  addStore: (store: Store) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -113,6 +114,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsAuthenticated(false)
   }
 
+  const addStore = (store: Store) => {
+    setStores((prev) => {
+      const updated = prev ? [...prev, store] : [store]
+      guardarStores(updated)
+      return updated
+    })
+  }
+
   const value = {
     token,
     user,
@@ -123,6 +132,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     login,
     selectStore,
     logout,
+    addStore,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
