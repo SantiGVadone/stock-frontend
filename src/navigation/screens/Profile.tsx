@@ -1,19 +1,33 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  FlatList,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { useAuth } from '../../context/AuthContext'
+import { Store } from '../../utility/auth'
 
 export default function Profile({ onClose }: any) {
   const navigation = useNavigation<any>()
-  const { logout } = useAuth()
+  const { logout, user, storeId, stores, selectStore } = useAuth()
+
+  const selectedStore = stores?.find((s) => s.id === storeId)
+  const userRole = selectedStore?.rol ?? stores?.[0]?.rol ?? 'Usuario'
+
+  const [showStoreSelector, setShowStoreSelector] = useState(false)
+  // const storeSelectorRef = useRef<any>(null)
+
+  const handleSelectStore = (store: Store) => {
+    selectStore(store.id)
+    setShowStoreSelector(false)
+  }
 
   const handleLogout = async () => {
     try {
@@ -22,13 +36,6 @@ export default function Profile({ onClose }: any) {
     } catch (e) {
       console.error('Hubi un error en el logout', e)
     }
-  }
-  // Datos simulados del usuario (pueden venir de un contexto de Auth)
-  const user = {
-    name: 'Santi Vadone',
-    email: 'santiago@stockpro.com',
-    role: 'Administrador',
-    avatar: null, // Usaremos un icono por defecto
   }
 
   const DrawerItem = ({ icon, label, onPress, color = '#1A1A1A' }: any) => (
@@ -57,8 +64,8 @@ export default function Profile({ onClose }: any) {
             <Ionicons name='person' size={40} color='#0061D9' />
           </View>
           <View style={styles.userInfo}>
-            <Text style={styles.userName}>{user.name}</Text>
-            <Text style={styles.userRole}>{user.role.toUpperCase()}</Text>
+            <Text style={styles.userName}>{user?.name}</Text>
+            <Text style={styles.userRole}>{userRole.toUpperCase()}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -67,8 +74,101 @@ export default function Profile({ onClose }: any) {
             navigation.goBack()
           }}
         >
-          <Ionicons name='close' size={24} color='#666' />
+          <Ionicons name='close' size={30} color='#666' />
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.storeSelectorContainer}>
+        <TouchableOpacity
+          style={styles.storeSelector}
+          onPress={() => setShowStoreSelector(!showStoreSelector)}
+        >
+          <View style={styles.storeInfo}>
+            <Text style={styles.storeSelectorLabel}>TIENDA ACTUAL</Text>
+            <Text style={styles.storeName}>
+              {selectedStore?.name ?? 'Sin tienda seleccionada'}
+            </Text>
+          </View>
+          <Ionicons
+            name={showStoreSelector ? 'chevron-up' : 'chevron-down'}
+            size={24}
+            color='#0061D9'
+          />
+        </TouchableOpacity>
+
+        <Modal
+          visible={showStoreSelector}
+          transparent
+          animationType='slide' //podria ser fade tambien
+          onRequestClose={() => setShowStoreSelector(false)}
+        >
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            onPress={() => setShowStoreSelector(false)}
+            activeOpacity={1}
+          >
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Seleccionar una Tienda</Text>
+              <FlatList
+                data={stores ?? []}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.modalItem,
+                      storeId === item.id && styles.modalItemSelected,
+                    ]}
+                    onPress={() => handleSelectStore(item)}
+                  >
+                    <View style={styles.modalItemContent}>
+                      <Ionicons
+                        name='storefront-outline'
+                        size={26}
+                        color={storeId === item.id ? '#FFF' : '#0061D9'}
+                        style={styles.modalIcon}
+                      />
+                      <View style={styles.modalItemText}>
+                        <Text
+                          style={[
+                            styles.modalItemName,
+                            storeId === item.id && styles.modalItemNameSelected,
+                          ]}
+                        >
+                          {item.name}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.modalItemRole,
+                            storeId === item.id && styles.modalItemRoleSelected,
+                          ]}
+                        >
+                          {item.rol?.toUpperCase()}
+                        </Text>
+                      </View>
+                    </View>
+                    {storeId === item.id && (
+                      <Ionicons
+                        name='checkmark-circle-outline'
+                        size={28}
+                        color='#FFF'
+                      />
+                    )}
+                  </TouchableOpacity>
+                )}
+              />
+              <TouchableOpacity
+                style={styles.modalAddStore}
+                onPress={() => {
+                  setShowStoreSelector(false)
+                  navigation.navigate('AddStore')
+                }}
+              >
+                <Ionicons name='add-circle-outline' size={20} color='#FFF' />
+                <Text style={styles.modalAddStoreText}>Crear Nueva Tienda</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
 
       <ScrollView style={styles.content}>
@@ -76,34 +176,58 @@ export default function Profile({ onClose }: any) {
         <DrawerItem
           icon='person-outline'
           label='Mi Perfil'
-          onPress={() => {}}
+          onPress={() => {
+            console.log(
+              'Aca tengo que redigir a una pantalla para poder ver todos los detalles del perfil: Nombre, Apellido, Email, Telefono, Creado el xxx.',
+            )
+          }}
         />
         <DrawerItem
           icon='notifications-outline'
           label='Notificaciones'
-          onPress={() => {}}
+          onPress={() => {
+            console.log(
+              'Aca tengo que redirigir a una pantalla donde se pueda configurar si se quiere aceptar notificaciones o no',
+            )
+          }}
         />
         <DrawerItem
           icon='shield-checkmark-outline'
           label='Seguridad'
-          onPress={() => {}}
+          onPress={() => {
+            console.log(
+              'aca voy a redirigir a una pantalla donde se pueda cambiar la contraseña o activar el tema de logearse con la huella, o cambiar los permisos a la camara y todo eso',
+            )
+          }}
         />
 
         <Text style={[styles.sectionTitle, { marginTop: 32 }]}>SISTEMA</Text>
         <DrawerItem
           icon='settings-outline'
           label='Ajustes de Tienda'
-          onPress={() => {}}
+          onPress={() => {
+            console.log(
+              'Aca quiero que se puedan cambiar los datos de la tienda, Nombre, Ubicacion, Telefono (Solo si el usuario es Jefe), sino ni deberia salirle esta opcion en el menu',
+            )
+          }}
         />
         <DrawerItem
           icon='people-outline'
           label='Gestionar Equipo'
-          onPress={() => {}}
+          onPress={() => {
+            console.log(
+              'Aca deberia poder invitar a un empleado a unirse, no se si enviandole un codigo, un mail o algun QR o algo(esta Opcion tambien es solo si el usuario es de rol Jefe)',
+            )
+          }}
         />
         <DrawerItem
           icon='help-circle-outline'
           label='Ayuda y Soporte'
-          onPress={() => {}}
+          onPress={() => {
+            console.log(
+              'Que envie a la pagina de la App o a un mail de soporte, nada mas',
+            )
+          }}
         />
 
         <View style={styles.divider} />
@@ -116,6 +240,7 @@ export default function Profile({ onClose }: any) {
           }}
           color='#E53935'
         />
+        {/*Aca tendria que tener un apartado de Renunciar a la tienda o algo asi */}
       </ScrollView>
 
       <View style={styles.footer}>
@@ -128,6 +253,7 @@ export default function Profile({ onClose }: any) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFF' },
   header: {
+    marginTop: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 24,
@@ -144,7 +270,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userInfo: { gap: 2 },
-  userName: { fontSize: 20, fontWeight: 'bold', color: '#1A1A1A' },
+  userName: { fontSize: 22, fontWeight: 'bold', color: '#1A1A1A' },
   userRole: {
     fontSize: 12,
     fontWeight: 'bold',
@@ -156,8 +282,9 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
   },
-  content: { flex: 1, padding: 24 },
+  content: { flex: 1, padding: 24, paddingTop: 15 },
   sectionTitle: {
     fontSize: 12,
     fontWeight: 'bold',
@@ -188,4 +315,80 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
   },
+  storeSelectorContainer: {
+    paddingHorizontal: 24,
+    paddingTop: 16,
+    paddingBottom: 8,
+  },
+  storeSelector: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#F5F6F8',
+    borderRadius: 12,
+    // borderWidth: 1,
+    // borderColor: '#E0E0E0',
+  },
+  storeInfo: { flex: 1 },
+  storeSelectorLabel: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#999',
+    letterSpacing: 1,
+    marginBottom: 2,
+  },
+  storeName: { fontSize: 18, fontWeight: 'bold', color: '#1A1A1A' },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: '#FFF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    paddingBottom: 32,
+    maxHeight: '70%',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1A1A1A',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  modalItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    paddingRight: 45,
+    borderRadius: 12,
+    backgroundColor: '#F5F6F8',
+    marginBottom: 8,
+  },
+  modalItemSelected: { backgroundColor: '#0061D9' },
+  modalItemContent: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  modalIcon: { marginRight: 4 },
+  modalItemText: { flex: 1 },
+  modalItemName: { fontSize: 16, fontWeight: 'bold', color: '#1A1A1A' },
+  modalItemNameSelected: { color: '#FFF' },
+  modalItemRole: { fontSize: 12, fontWeight: 'bold', color: '#666' },
+  modalItemRoleSelected: { color: 'rgba(255,255,255,0.8)' },
+  modalAddStore: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 8,
+    paddingVertical: 14,
+    backgroundColor: '#0061D9',
+    borderRadius: 12,
+  },
+  modalAddStoreText: { fontSize: 16, fontWeight: 'bold', color: '#FFF' },
 })
