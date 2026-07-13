@@ -87,7 +87,7 @@
 
 # Futura V1.4
 
-- Crear una tienda
+- ✅ Crear una tienda
 - Editar una tienda
 - ✅ Ver todas las tiendas
 - Eliminar una tienda
@@ -133,10 +133,44 @@
 - ✅ Agregar un Logo a la APP
 - Agregar alguna pantalla de bienvenida, con logos y animaciones
 
-# To Do 10/07
+# To Do 13/7 (en orden de prioridad)
 
-- Checkear el error del backend al usar el handleAdd o handleSubstract
+- :white Arreglar la pantalla de Nueva Tienda
+  - ✅ Arreglar como se ve el Header de Nueva Tienda
+  - ✅ Arreglar el ir hacia atras en Nueva tienda
+
+- 🟡 Hacer funcional la pantalla de Profile
+  - ✅ Mostrar los datos reales del usuario: el Nombre, Rol ...
+  - ✅ Mostrar los datos reales de las tiendas del usuario: Tienda Actual, tiendas disponibles y rangos
+    - ✅ Poder seleccionar una de estas tiendas de manera rapida y facil
+    - ✅ Redirigir a la pantalla de crear tienda en caso de que se necesite
+
+  - Crear la pantalla Mi Perfil
+    - Mostrar y poder editar datos del usuario, Nombre, Apellido, Email, Telefono, Creado el xxx
+
+  - Crear la pantalla Notificaciones
+    - Poder Configurar las notificaciones
+
+  - Crear la pantalla Seguridad
+    - Poder configurar el login con datos biometricos
+    - Poder Cambiar la contraseña
+    - Poder ver si el mail esta verificado(poder verificarlo en caso de que no sea asi)
+
+  - Crear la pantalla Ajustes de Tienda (se va a mostrar solo si el usuario es Jefe)
+    - Poder ver y editar los datos de la tienda ( nombre, ubi, Telefono)
+
+  - Crear la Pantalla Gestionar Equipo(se va a mostrar solo si el usuario es Jefe):
+    - Ver todos los empleados que hay en la tienda
+    - Poder eliminar algun empleado
+    - Poder Agregar algun empleado
+
+  - Crear la pantalla de Ayuda y Soporte
+    - Que envie a la web de la app o empresa, que pueda enviar un mail tambien
+
+  - Agregar la opcion de Renunciar abajo de Cerrar Sesion (con confirmacion obvio)
+    - En el caso del empleado, al renunciar simplemente se borra al empleado de la tienda
+    - En el caso del Jefe, se le avisa que no va a poder recuperar nada, y se borra la tienda, la relacion de empleados tienda y la relacion de jefe tienda y todos los productos de esa tienda
+
 - Actualizar AddProduct
 - Actualizar EditProduct
-- Hacer funcional la pantalla de Profile
 - Agregar WelcomeScreens
