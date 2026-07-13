@@ -43,7 +43,7 @@ export const AddStore = ({ navigation }: any) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.goBack()}
+          onPress={() => nav.goBack()}
         >
           <Ionicons name='arrow-back' size={24} color='#0061D9' />
         </TouchableOpacity>
@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 10,
     paddingHorizontal: 16,
     paddingVertical: 10,
     height: 60,
