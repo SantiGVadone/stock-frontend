@@ -171,6 +171,13 @@
     - En el caso del empleado, al renunciar simplemente se borra al empleado de la tienda
     - En el caso del Jefe, se le avisa que no va a poder recuperar nada, y se borra la tienda, la relacion de empleados tienda y la relacion de jefe tienda y todos los productos de esa tienda
 
-- Actualizar AddProduct
+- ✅ Actualizar AddProduct (tenia pensado que sea como una pantalla modal que ocupe un 3/4 de la pantalla con bordes redondeados o algo asi)
+  - ✅ Tengo que poder Ingresar:
+    - 🟡 Foto de este (opcional)
+    - ✅ Nombre
+    - ✅ Descripcion (opcional)
+    - ✅ Cantidad
+    - ✅ Categoria
 - Actualizar EditProduct
+  - Tengo que poder Editar Todos los datos del producto.
 - Agregar WelcomeScreens
