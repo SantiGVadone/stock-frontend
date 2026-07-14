@@ -135,7 +135,7 @@
 
 # To Do 13/7 (en orden de prioridad)
 
-- :white Arreglar la pantalla de Nueva Tienda
+- ✅ Arreglar la pantalla de Nueva Tienda
   - ✅ Arreglar como se ve el Header de Nueva Tienda
   - ✅ Arreglar el ir hacia atras en Nueva tienda
 
