@@ -118,11 +118,15 @@ export const useStock = () => {
   }
 
   const addProduct = async (product: AddProduct) => {
-    if (!product.name || !product.description || !product.quantity) {
+    if (
+      !product.name ||
+      !product.description ||
+      !product.quantity ||
+      !product.description
+    ) {
       alert('Necesitas completar todos los campos')
       setLoading(false)
-      navigation.navigate('Stock')
-
+      navigation.goBack()
       return
     }
     try {
