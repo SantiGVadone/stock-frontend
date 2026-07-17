@@ -139,7 +139,7 @@
   - ✅ Arreglar como se ve el Header de Nueva Tienda
   - ✅ Arreglar el ir hacia atras en Nueva tienda
 
-- 🟡 Hacer funcional la pantalla de Profile
+- ✅ Hacer funcional la pantalla de Profile
   - ✅ Mostrar los datos reales del usuario: el Nombre, Rol ...
   - ✅ Mostrar los datos reales de las tiendas del usuario: Tienda Actual, tiendas disponibles y rangos
     - ✅ Poder seleccionar una de estas tiendas de manera rapida y facil
@@ -178,6 +178,11 @@
     - ✅ Descripcion (opcional)
     - ✅ Cantidad
     - ✅ Categoria
-- Actualizar EditProduct
-  - Tengo que poder Editar Todos los datos del producto.
+- ✅ Actualizar EditProduct
+  - Tengo que poder Editar:
+    - 🟡 Foto de este (opcional)
+    - ✅ Nombre
+    - ✅ Descripcion (opcional)
+    - ✅ Cantidad
+    - ✅ Categoria
 - Agregar WelcomeScreens
