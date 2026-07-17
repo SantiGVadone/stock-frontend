@@ -179,7 +179,7 @@
     - ✅ Cantidad
     - ✅ Categoria
 - ✅ Actualizar EditProduct
-  - Tengo que poder Editar:
+  - ✅ Tengo que poder Editar:
     - 🟡 Foto de este (opcional)
     - ✅ Nombre
     - ✅ Descripcion (opcional)
