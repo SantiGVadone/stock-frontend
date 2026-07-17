@@ -52,7 +52,8 @@ export const AddStore = ({ navigation }: any) => {
       </View>
 
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={'padding'}
+        keyboardVerticalOffset={0}
         style={{ flex: 1 }}
       >
         <ScrollView

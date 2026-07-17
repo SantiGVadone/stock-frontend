@@ -97,8 +97,9 @@ const RootStack = createNativeStackNavigator({
         </RequireAuth>
       ),
       options: {
-        presentation: 'transparentModal',
         headerShown: false,
+        presentation: 'transparentModal',
+        animation: 'slide_from_bottom',
       },
     },
   },

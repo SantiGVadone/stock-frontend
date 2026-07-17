@@ -41,7 +41,7 @@ export function AddProduct() {
       />
       <KeyboardAvoidingView
         style={styles.modalContent}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={'padding'}
         keyboardVerticalOffset={0}
       >
         <ScrollView
