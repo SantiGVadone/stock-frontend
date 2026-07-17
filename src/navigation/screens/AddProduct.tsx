@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Platform,
 } from 'react-native'
 import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
@@ -40,7 +41,7 @@ export function AddProduct() {
       />
       <KeyboardAvoidingView
         style={styles.modalContent}
-        behavior='padding'
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={0}
       >
         <ScrollView

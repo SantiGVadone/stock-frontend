@@ -5,6 +5,7 @@ import {
   Text,
   KeyboardAvoidingView,
   StyleSheet,
+  Platform,
 } from 'react-native'
 import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
@@ -26,7 +27,10 @@ export function EditProduct({ route }: any) {
   const { editProduct } = useStock()
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
       <View style={styles.container}>
         <View style={styles.whitePage}>
           <View

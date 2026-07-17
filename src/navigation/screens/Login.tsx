@@ -7,6 +7,7 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
+  Platform,
 } from 'react-native'
 import { CustomInput } from '../../components/CustomInput'
 import { useNavigation } from '@react-navigation/native'
@@ -31,7 +32,10 @@ export function Login() {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
