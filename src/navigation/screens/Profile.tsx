@@ -177,9 +177,7 @@ export default function Profile({ onClose }: any) {
           icon='person-outline'
           label='Mi Perfil'
           onPress={() => {
-            console.log(
-              'Aca tengo que redigir a una pantalla para poder ver todos los detalles del perfil: Nombre, Apellido, Email, Telefono, Creado el xxx.',
-            )
+            navigation.navigate('MyProfile')
           }}
         />
         <DrawerItem
