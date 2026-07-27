@@ -17,8 +17,9 @@
     - ✅ Poder seleccionar una de estas tiendas de manera rapida y facil
     - ✅ Redirigir a la pantalla de crear tienda en caso de que se necesite
 
-  - Crear la pantalla Mi Perfil
-    - Mostrar y poder editar datos del usuario, Nombre, Apellido, Email, Telefono, Creado el xxx
+  - ✅ Crear la pantalla Mi Perfil
+    - ✅ Mostrar datos del usuario, Nombre, Apellido, Email, Telefono, Creado el xxx
+    - ✅ Editar datos del usuario, Nombre, Apellido, Email, Telefono
 
   - Crear la pantalla Notificaciones
     - Poder Configurar las notificaciones
