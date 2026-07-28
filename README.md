@@ -1,11 +1,10 @@
 # App de gestion de Stock
 
 > [!NOTE]
-> Esta APP esta echa con fines educativos y de practica
-> La app actualmente esta en la version BETA, ya que faltan unos pasos para tener la v 1.0
+> Esta APP esta echa con fines educativos y de practica
 > El repositorio del Back-End es: https://github.com/santigvadone/stock-backend
 
-# To Do 13/7 (en orden de prioridad)
+# To Do 13/7 (en orden de prioridad) [ACTUALIZADO AL 28/7]
 
 - ✅ Arreglar la pantalla de Nueva Tienda
   - ✅ Arreglar como se ve el Header de Nueva Tienda
