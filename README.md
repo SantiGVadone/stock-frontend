@@ -21,8 +21,8 @@
     - ✅ Mostrar datos del usuario, Nombre, Apellido, Email, Telefono, Creado el xxx
     - ✅ Editar datos del usuario, Nombre, Apellido, Email, Telefono
 
-  - Crear la pantalla Notificaciones
-    - Poder Configurar las notificaciones
+  - 🟡 Crear la pantalla Notificaciones [Por el momento las notificaciones solo se van a poder Activar y desactivar(switch) ]
+    - ✅ Poder Configurar las notificaciones
 
   - Crear la pantalla Seguridad
     - Poder configurar el login con datos biometricos
