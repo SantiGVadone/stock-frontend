@@ -7,6 +7,7 @@ import {
   ScrollView,
   Modal,
   FlatList,
+  Switch,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -17,6 +18,7 @@ import { Store } from '../../utility/auth'
 export default function Profile({ onClose }: any) {
   const navigation = useNavigation<any>()
   const { logout, user, storeId, stores, selectStore } = useAuth()
+  const [notifications, setNotifications] = useState(false)
 
   const selectedStore = stores?.find((s) => s.id === storeId)
   const userRole = selectedStore?.rol ?? stores?.[0]?.rol ?? 'Usuario'
@@ -36,6 +38,10 @@ export default function Profile({ onClose }: any) {
     } catch (e) {
       console.error('Hubi un error en el logout', e)
     }
+  }
+
+  const handleNotifications = () => {
+    setNotifications(!notifications)
   }
 
   const DrawerItem = ({ icon, label, onPress, color = '#1A1A1A' }: any) => (
@@ -180,15 +186,24 @@ export default function Profile({ onClose }: any) {
             navigation.navigate('MyProfile')
           }}
         />
-        <DrawerItem
-          icon='notifications-outline'
-          label='Notificaciones'
-          onPress={() => {
-            console.log(
-              'Aca tengo que redirigir a una pantalla donde se pueda configurar si se quiere aceptar notificaciones o no',
-            )
-          }}
-        />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <DrawerItem
+            icon='notifications-outline'
+            label='Notificacioness'
+            onPress={() => {
+              console.log(
+                'Aca tengo que redirigir a una pantalla donde se pueda configurar si se quiere aceptar notificaciones o no',
+              )
+            }}
+          />
+          <Switch
+            trackColor={{ false: '#767577', true: '#81b0ff' }}
+            thumbColor={notifications ? '#0061D9' : '#f4f3f4'}
+            ios_backgroundColor='#3e3e3e'
+            onValueChange={handleNotifications}
+            value={notifications}
+          />
+        </View>
         <DrawerItem
           icon='shield-checkmark-outline'
           label='Seguridad'
