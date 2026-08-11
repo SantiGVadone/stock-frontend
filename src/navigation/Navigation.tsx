@@ -12,6 +12,7 @@ import { RequireAuth } from './RequireAuth'
 import { AddStore } from './screens/AddStore'
 import { MyProfile } from './screens/MyProfile'
 import { Security } from './screens/Security'
+import { StoreSettings } from './screens/StoreSettings'
 // import Filters from './screens/Filters'
 
 const RootStack = createNativeStackNavigator({
@@ -87,6 +88,16 @@ const RootStack = createNativeStackNavigator({
       screen: (props: any) => (
         <RequireAuth {...props}>
           <Security />
+        </RequireAuth>
+      ),
+      options: {
+        headerShown: false,
+      },
+    },
+    StoreSettings: {
+      screen: (props: any) => (
+        <RequireAuth {...props}>
+          <StoreSettings />
         </RequireAuth>
       ),
       options: {
