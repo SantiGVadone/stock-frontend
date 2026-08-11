@@ -5,6 +5,10 @@
 
 > El repositorio del Back-End es: https://github.com/santigvadone/stock-backend
 
+# To day 10/8 vuelvo al proyecto
+
+- ✅ Cambie algunas cosas en ProductDetail mas que nada en el header, ahora el titulo esta centrado y el boton de atras esta a la izquierda, ademas de que agregue un borde abajo del header para que se vea mas bonito
+
 # To Do 13/7 (en orden de prioridad) [ACTUALIZADO AL 28/7]
 
 - ✅ Arreglar la pantalla de Nueva Tienda
