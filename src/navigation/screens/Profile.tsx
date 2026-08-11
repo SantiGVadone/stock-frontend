@@ -212,24 +212,28 @@ export default function Profile({ onClose }: any) {
         />
 
         <Text style={[styles.sectionTitle, { marginTop: 32 }]}>SISTEMA</Text>
-        <DrawerItem
-          icon='settings-outline'
-          label='Gestionar la Tienda'
-          onPress={() => {
-            console.log(
-              'Aca quiero que se puedan cambiar los datos de la tienda, Nombre, Ubicacion, Telefono (Solo si el usuario es Jefe), sino ni deberia salirle esta opcion en el menu',
-            )
-          }}
-        />
-        <DrawerItem
-          icon='people-outline'
-          label='Gestionar el Equipo'
-          onPress={() => {
-            console.log(
-              'Aca deberia poder invitar a un empleado a unirse, no se si enviandole un codigo, un mail o algun QR o algo(esta Opcion tambien es solo si el usuario es de rol Jefe)',
-            )
-          }}
-        />
+        {userRole === 'jefe' ? (
+          <DrawerItem
+            icon='settings-outline'
+            label='Gestionar la Tienda'
+            onPress={() => {
+              console.log(
+                'Aca quiero que se puedan cambiar los datos de la tienda, Nombre, Ubicacion, Telefono (Solo si el usuario es Jefe), sino ni deberia salirle esta opcion en el menu',
+              )
+            }}
+          />
+        ) : null}
+        {userRole === 'jefe' ? (
+          <DrawerItem
+            icon='people-outline'
+            label='Gestionar el Equipo'
+            onPress={() => {
+              console.log(
+                'Aca deberia poder invitar a un empleado a unirse, no se si enviandole un codigo, un mail o algun QR o algo(esta Opcion tambien es solo si el usuario es de rol Jefe)',
+              )
+            }}
+          />
+        ) : null}
         <DrawerItem
           icon='help-circle-outline'
           label='Ayuda y Soporte'
@@ -316,7 +320,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   itemLabel: { fontSize: 16, fontWeight: '600' },
-  divider: { height: 1, backgroundColor: '#F0F0F0', marginVertical: 24 },
+  divider: { height: 1, backgroundColor: '#F0F0F0', marginVertical: 18 },
   footer: { padding: 24, borderTopWidth: 1, borderTopColor: '#F0F0F0' },
   version: {
     textAlign: 'center',
