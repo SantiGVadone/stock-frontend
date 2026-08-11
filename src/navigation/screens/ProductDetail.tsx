@@ -30,17 +30,32 @@ export const ProductDetail = ({ route }: any) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={() => {
-            ;(navigation.navigate as any)('EditProduct', {
-              product: localProduct,
-            })
-          }}
-        >
-          <Ionicons name='create-outline' size={30} color='#0061D9' />
-        </TouchableOpacity>
+      header: () => (
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name='arrow-back' size={30} color='#0061D9' />
+          </TouchableOpacity>
+          <Text
+            style={styles.headerTitle}
+            numberOfLines={1}
+            ellipsizeMode='tail'
+          >
+            Detalles de {product.name}
+          </Text>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => {
+              ;(navigation.navigate as any)('EditProduct', {
+                product: localProduct,
+              })
+            }}
+          >
+            <Ionicons name='create-outline' size={30} color='#0061D9' />
+          </TouchableOpacity>
+        </View>
       ),
     })
   }, [navigation, localProduct])
@@ -144,10 +159,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
+    paddingTop: 20,
     height: 60,
     backgroundColor: '#FFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
   },
-  headerTitle: { fontSize: 18, fontWeight: 'bold', color: '#1A1A1A' },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1A1A1A',
+    textAlign: 'center',
+    maxWidth: '60%',
+  },
   backButton: {
     width: 40,
     height: 40,
