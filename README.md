@@ -28,10 +28,10 @@
   - ✅ Crear la pantalla Notificaciones [Por el momento las notificaciones solo se van a poder Activar y desactivar(switch) ]
     - ✅ Poder Configurar las notificaciones
 
-  - Crear la pantalla Seguridad
-    - Poder configurar el login con datos biometricos
-    - Poder Cambiar la contraseña
-    - Poder ver si el mail esta verificado(poder verificarlo en caso de que no sea asi)
+  - ✅ Crear la pantalla Seguridad
+    - ✅ Poder configurar el login con datos biometricos
+    - ✅ Poder Cambiar la contraseña
+    - ✅ Poder ver si el mail esta verificado(poder verificarlo en caso de que no sea asi)
 
   - Crear la pantalla Ajustes de Tienda (se va a mostrar solo si el usuario es Jefe)
     - Poder ver y editar los datos de la tienda ( nombre, ubi, Telefono)
