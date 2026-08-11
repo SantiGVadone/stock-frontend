@@ -217,7 +217,7 @@ export default function Profile({ onClose }: any) {
         <Text style={[styles.sectionTitle, { marginTop: 32 }]}>SISTEMA</Text>
         <DrawerItem
           icon='settings-outline'
-          label='Ajustes de Tienda'
+          label='Gestionar la Tienda'
           onPress={() => {
             console.log(
               'Aca quiero que se puedan cambiar los datos de la tienda, Nombre, Ubicacion, Telefono (Solo si el usuario es Jefe), sino ni deberia salirle esta opcion en el menu',
@@ -226,7 +226,7 @@ export default function Profile({ onClose }: any) {
         />
         <DrawerItem
           icon='people-outline'
-          label='Gestionar Equipo'
+          label='Gestionar el Equipo'
           onPress={() => {
             console.log(
               'Aca deberia poder invitar a un empleado a unirse, no se si enviandole un codigo, un mail o algun QR o algo(esta Opcion tambien es solo si el usuario es de rol Jefe)',
@@ -253,7 +253,6 @@ export default function Profile({ onClose }: any) {
           }}
           color='#E53935'
         />
-        {/*Aca tendria que tener un apartado de Renunciar a la tienda o algo asi */}
       </ScrollView>
 
       <View style={styles.footer}>
