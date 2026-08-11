@@ -40,10 +40,6 @@ export default function Profile({ onClose }: any) {
     }
   }
 
-  const handleNotifications = () => {
-    setNotifications(!notifications)
-  }
-
   const DrawerItem = ({ icon, label, onPress, color = '#1A1A1A' }: any) => (
     <TouchableOpacity style={styles.drawerItem} onPress={onPress}>
       <View
@@ -200,7 +196,10 @@ export default function Profile({ onClose }: any) {
             trackColor={{ false: '#767577', true: '#81b0ff' }}
             thumbColor={notifications ? '#0061D9' : '#f4f3f4'}
             ios_backgroundColor='#3e3e3e'
-            onValueChange={handleNotifications}
+            onValueChange={(value) => {
+              setNotifications(value)
+              console.log('Cambio el valor de notificaciones a: ', value)
+            }}
             value={notifications}
           />
         </View>
@@ -208,9 +207,7 @@ export default function Profile({ onClose }: any) {
           icon='shield-checkmark-outline'
           label='Seguridad'
           onPress={() => {
-            console.log(
-              'aca voy a redirigir a una pantalla donde se pueda cambiar la contraseña o activar el tema de logearse con la huella, o cambiar los permisos a la camara y todo eso',
-            )
+            navigation.navigate('Security')
           }}
         />
 
