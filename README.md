@@ -2,7 +2,6 @@
 
 > [!NOTE]
 > Esta APP esta echa con fines educativos y de practica
-
 > El repositorio del Back-End es: https://github.com/santigvadone/stock-backend
 
 # To day 10/8 vuelvo al proyecto
@@ -33,8 +32,8 @@
     - ✅ Poder Cambiar la contraseña
     - ✅ Poder ver si el mail esta verificado(poder verificarlo en caso de que no sea asi)
 
-  - Crear la pantalla Ajustes de Tienda (se va a mostrar solo si el usuario es Jefe)
-    - Poder ver y editar los datos de la tienda ( nombre, ubi, Telefono)
+  - 🟡 Crear la pantalla Ajustes de Tienda (se va a mostrar solo si el usuario es Jefe)
+    - 🟡 Poder ver y editar los datos de la tienda ( nombre, ubi, Telefono)
 
   - Crear la Pantalla Gestionar Equipo(se va a mostrar solo si el usuario es Jefe):
     - Ver todos los empleados que hay en la tienda
