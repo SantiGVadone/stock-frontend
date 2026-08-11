@@ -217,6 +217,7 @@ export default function Profile({ onClose }: any) {
             icon='settings-outline'
             label='Gestionar la Tienda'
             onPress={() => {
+              navigation.navigate('StoreSettings')
               console.log(
                 'Aca quiero que se puedan cambiar los datos de la tienda, Nombre, Ubicacion, Telefono (Solo si el usuario es Jefe), sino ni deberia salirle esta opcion en el menu',
               )
