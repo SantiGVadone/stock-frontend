@@ -1,7 +1,8 @@
 # App de gestion de Stock
 
 > [!NOTE]
-> Esta APP esta echa con fines educativos y de practica
+> Esta APP esta echa con fines educativos y de practica
+
 > El repositorio del Back-End es: https://github.com/santigvadone/stock-backend
 
 # To Do 13/7 (en orden de prioridad) [ACTUALIZADO AL 28/7]
@@ -20,7 +21,7 @@
     - ✅ Mostrar datos del usuario, Nombre, Apellido, Email, Telefono, Creado el xxx
     - ✅ Editar datos del usuario, Nombre, Apellido, Email, Telefono
 
-  - 🟡 Crear la pantalla Notificaciones [Por el momento las notificaciones solo se van a poder Activar y desactivar(switch) ]
+  - ✅ Crear la pantalla Notificaciones [Por el momento las notificaciones solo se van a poder Activar y desactivar(switch) ]
     - ✅ Poder Configurar las notificaciones
 
   - Crear la pantalla Seguridad
