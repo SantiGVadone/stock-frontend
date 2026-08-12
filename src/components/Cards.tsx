@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-export const SecurityCard = ({ icon, title, children }: any) => (
+export const Cards = ({ icon, title, children }: any) => (
   <View style={styles.card}>
     <View style={styles.cardHeader}>
       <View style={styles.iconWrapper}>

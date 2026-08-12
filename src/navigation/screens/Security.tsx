@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { SecurityCard } from '../../components/SecurityCard'
+import { Cards } from '../../components/Cards'
 import { useNavigation } from '@react-navigation/native'
 import { useAuth } from '../../context/AuthContext'
 
@@ -53,7 +53,7 @@ export const Security = ({ navigation }: any) => {
           contentContainerStyle={styles.scrollContent}
         >
           {/* BIOMETRIC LOGIN */}
-          <SecurityCard icon='finger-print-outline' title='Ingreso Biometrico'>
+          <Cards icon='finger-print-outline' title='Ingreso Biometrico'>
             <View style={styles.pendingBadge}>
               <Ionicons name='alert-circle-outline' size={14} color='#E53935' />
               <Text style={styles.pendingText}>
@@ -84,10 +84,10 @@ export const Security = ({ navigation }: any) => {
               Activa el ingreso rapido y seguro usando los sensores biometricos
               de tu dispositivo. No mas escribir contraseñas.
             </Text>
-          </SecurityCard>
+          </Cards>
 
           {/* EMAIL VERIFICATION */}
-          <SecurityCard icon='mail-outline' title='Verificación de Email'>
+          <Cards icon='mail-outline' title='Verificación de Email'>
             <View style={styles.pendingBadge}>
               <Ionicons name='alert-circle-outline' size={14} color='#E53935' />
               <Text style={styles.pendingText}>
@@ -112,10 +112,10 @@ export const Security = ({ navigation }: any) => {
               Verifica tu Email para desbloquear todas las funciones y asegurar
               la recuperacion de tu cuenta.
             </Text>
-          </SecurityCard>
+          </Cards>
 
           {/* CHANGE PASSWORD */}
-          <SecurityCard icon='key-outline' title='Cambiar Contraseña'>
+          <Cards icon='key-outline' title='Cambiar Contraseña'>
             <View style={styles.pendingBadge}>
               <Ionicons name='alert-circle-outline' size={14} color='#E53935' />
               <Text style={styles.pendingText}>
@@ -179,7 +179,7 @@ export const Security = ({ navigation }: any) => {
                 </Text>
               </TouchableOpacity>
             </View>
-          </SecurityCard>
+          </Cards>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaProvider>
