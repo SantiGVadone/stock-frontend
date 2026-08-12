@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   TextInput,
@@ -13,17 +12,27 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useStore, type Store } from '../../hooks/useStore'
+import { useAuth } from '../../context/AuthContext'
 
 export const StoreSettings = ({ nav }: any) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
+  const { updateStore, loading } = useStore()
+  const { storeId, stores } = useAuth()
+
+  const selectedStore = stores?.find((s) => s.id === storeId)
 
   // Estados para los campos de la tienda
-  const [storeName, setStoreName] = useState('Flagship Store')
-  const [address, setAddress] = useState('123 Retail Ave, Suite 100')
-  const [city, setCity] = useState('Metropolis')
-  const [zipCode, setZipCode] = useState('90210')
-  const [phone, setPhone] = useState('+1 (555) 123-4567')
-  const [email, setEmail] = useState('support@flagship.retail')
+  const [updateStoreName, setUpdateStoreName] = useState(
+    selectedStore?.name || '',
+  )
+  const [updateLocation, setUpdateLocation] = useState(
+    selectedStore?.location || '',
+  )
+  const [updatePhone, setUpdatePhone] = useState(selectedStore?.phone || '')
+  // const [city, setCity] = useState('Metropolis')
+  // const [zipCode, setZipCode] = useState('90210')
+  // const [email, setEmail] = useState('support@flagship.retail')
 
   const SettingsCard = ({ icon, title, children }: any) => (
     <View style={styles.card}>
@@ -59,6 +68,26 @@ export const StoreSettings = ({ nav }: any) => {
     </View>
   )
 
+  const handleSaveChanges = async () => {
+    if (!storeId) {
+      alert('Tienda no identificada')
+      return
+    }
+    try {
+      console.log('Actualizando la tienda: Store', storeId)
+      const store: Store = {
+        id: storeId,
+        name: updateStoreName,
+        location: updateLocation,
+        phone: updatePhone,
+      }
+      await updateStore(store)
+      navigation.navigate('Profile')
+    } catch (e) {
+      console.error('Error creando una nueva tienda: ', e)
+    }
+  }
+
   return (
     <SafeAreaProvider style={styles.container}>
       {/* HEADER */}
@@ -86,66 +115,76 @@ export const StoreSettings = ({ nav }: any) => {
           {/* <Text style={styles.pageTitle}>Store Configuration</Text> */}
 
           {/* STORE IDENTITY */}
-          <SettingsCard icon='business-outline' title='Store Identity'>
+          <SettingsCard icon='business-outline' title='Identidad de la Tienda'>
             <CustomInput
-              label='Store Name'
+              label='Nombre de la Tienda'
               icon='create-outline'
-              value={storeName}
-              onChangeText={setStoreName}
+              value={updateStoreName}
+              onChangeText={setUpdateStoreName}
             />
           </SettingsCard>
 
           {/* LOCATION DETAILS */}
-          <SettingsCard icon='location-outline' title='Location Details'>
+          <SettingsCard icon='location-outline' title='Ubicación de la Tienda'>
             <CustomInput
-              label='Street Address'
+              label='Dirección'
               icon='map-outline'
-              value={address}
-              onChangeText={setAddress}
+              value={updateLocation}
+              onChangeText={setUpdateLocation}
             />
             <View style={styles.row}>
               <CustomInput
-                label='City'
+                label='Ciudad'
                 icon='location-outline'
-                value={city}
-                onChangeText={setCity}
+                value='Deshabilitado'
+                // onChangeText={setCity}
                 halfWidth
               />
               <CustomInput
-                label='Zip Code'
+                label='Codigo Postal'
                 icon='navigate-outline'
-                value={zipCode}
-                onChangeText={setZipCode}
+                value='Deshabilitado'
+                // onChangeText={setZipCode}
                 halfWidth
               />
             </View>
           </SettingsCard>
 
           {/* CONTACT INFORMATION */}
-          <SettingsCard icon='call-outline' title='Contact Information'>
+          <SettingsCard icon='call-outline' title='Información de Contacto'>
             <CustomInput
-              label='Phone Number'
+              label='Numero de Teléfono'
               icon='call-outline'
-              value={phone}
-              onChangeText={setPhone}
+              value={updatePhone}
+              onChangeText={setUpdatePhone}
             />
             <CustomInput
-              label='Support Email'
+              label='Email de Contacto'
               icon='mail-outline'
-              value={email}
-              onChangeText={setEmail}
+              value={'Deshabilitado'}
+              // onChangeText={setEmail}
             />
           </SettingsCard>
         </ScrollView>
 
         {/* BOTTOM ACTIONS */}
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.discardButton}>
-            <Text style={styles.discardButtonText}>Discard</Text>
+          <TouchableOpacity
+            style={styles.discardButton}
+            onPress={() => {
+              navigation.goBack()
+            }}
+          >
+            <Text style={styles.discardButtonText}>Descartar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.saveButton}>
+          <TouchableOpacity
+            style={styles.saveButton}
+            onPress={() => {
+              handleSaveChanges()
+            }}
+          >
             <Ionicons name='save-outline' size={20} color='#FFF' />
-            <Text style={styles.saveButtonText}>Save Changes</Text>
+            <Text style={styles.saveButtonText}>Guardar Cambios</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -164,6 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAF9FE',
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
+    paddingTop: 10,
   },
   headerTitleContainer: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   logoBadge: {
