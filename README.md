@@ -4,6 +4,14 @@
 > Esta APP esta echa con fines educativos y de practica
 > El repositorio del Back-End es: https://github.com/santigvadone/stock-backend
 
+# BUGS 12/8
+
+- Quiero que si no tenes ninguna cuenta no te diga "Seleccione una tienda" sino que te diga "no tenes ninguna tienda, crea una nueva"
+- Al hacer click en el boton de "Crear una nueva tienda" me tira un error, pero la tienda la crea igual
+- En la screen de MyProfile, se esta mostrando los mocks todavia
+- Los textInput de storeSettings me dejan escribir un caracter y pierden el foco
+- Al eliminar un producto no te navega a la pantalla de Stock
+
 # To day 10/8 vuelvo al proyecto
 
 - ✅ Cambie algunas cosas en ProductDetail mas que nada en el header, ahora el titulo esta centrado y el boton de atras esta a la izquierda, ademas de que agregue un borde abajo del header para que se vea mas bonito
