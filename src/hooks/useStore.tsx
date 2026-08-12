@@ -3,10 +3,9 @@ import { useAuth } from '../context/AuthContext'
 
 const API_URL = 'https://api.vadonedev.com.ar/api'
 
-interface Store {
+export interface Store {
   id: number
   name: string
-  rol?: string
   location?: string
   phone?: string | number
 }
@@ -60,5 +59,35 @@ export const useStore = () => {
     }
   }
 
-  return { newStore, loading, error }
+  const updateStore = async (store: Store) => {
+    setLoading(true)
+    if (!store.name || !store.location || !store.phone) {
+      alert('Todos los campos son obligatorios.')
+      setLoading(false)
+      return
+    }
+    try {
+      setLoading(true)
+      const response = await fetch(`${API_URL}/stores/${store.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: store.name,
+          location: store.location,
+          phone: store.phone,
+        }),
+      })
+    } catch (error) {
+      console.error(error)
+      alert('No se pudo actualizar la Tienda')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { newStore, updateStore, loading, error }
 }
