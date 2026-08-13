@@ -33,8 +33,8 @@ export default function Profile({ onClose }: any) {
 
   const handleLogout = async () => {
     try {
-      await logout()
       navigation.navigate('Login')
+      await logout()
     } catch (e) {
       console.error('Hubi un error en el logout', e)
     }
@@ -239,9 +239,7 @@ export default function Profile({ onClose }: any) {
           icon='help-circle-outline'
           label='Ayuda y Soporte'
           onPress={() => {
-            console.log(
-              'Que envie a la pagina de la App o a un mail de soporte, nada mas',
-            )
+            navigation.navigate('Support')
           }}
         />
 
