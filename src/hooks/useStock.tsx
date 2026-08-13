@@ -107,7 +107,7 @@ export const useStock = () => {
         },
       })
       setLoading(false)
-      navigation.goBack()
+      navigation.navigate('Stock')
       if (!response.ok) throw new Error('Error al conectar con el servidor')
     } catch (err: any) {
       setError(err.message)
