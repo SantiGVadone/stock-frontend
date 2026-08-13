@@ -10,7 +10,7 @@
 - Al hacer click en el boton de "Crear una nueva tienda" me tira un error, pero la tienda la crea igual
 - En la screen de MyProfile, se esta mostrando los mocks todavia
 - Los textInput de storeSettings me dejan escribir un caracter y pierden el foco
-- Al eliminar un producto no te navega a la pantalla de Stock
+- ✅ Al eliminar un producto no te navega a la pantalla de Stock
 
 # To day 10/8 vuelvo al proyecto
 
@@ -48,8 +48,8 @@
     - Poder eliminar algun empleado
     - Poder Agregar algun empleado
 
-  - Crear la pantalla de Ayuda y Soporte
-    - Que envie a la web de la app o empresa, que pueda enviar un mail tambien
+  - ✅ Crear la pantalla de Ayuda y Soporte
+    - ✅ Que envie a la web de la app o empresa, que pueda enviar un mail tambien
 
   - Agregar la opcion de Renunciar abajo de Cerrar Sesion (con confirmacion obvio)
     - En el caso del empleado, al renunciar simplemente se borra al empleado de la tienda
