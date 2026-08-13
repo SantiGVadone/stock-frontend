@@ -28,7 +28,7 @@ export const AddStore = ({ navigation }: any) => {
 
   const handleCreate = async () => {
     try {
-      console.log('crenado la tienda: Store', name, location, phone)
+      // console.log('crenado la tienda: Store', name, location, phone)
       const store = { name, location, phone }
       newStore(store)
       nav.navigate('PickStore')
