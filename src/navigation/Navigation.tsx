@@ -13,6 +13,7 @@ import { AddStore } from './screens/AddStore'
 import { MyProfile } from './screens/MyProfile'
 import { Security } from './screens/Security'
 import { StoreSettings } from './screens/StoreSettings'
+import { Support } from './screens/Support'
 // import Filters from './screens/Filters'
 
 const RootStack = createNativeStackNavigator({
@@ -98,6 +99,16 @@ const RootStack = createNativeStackNavigator({
       screen: (props: any) => (
         <RequireAuth {...props}>
           <StoreSettings />
+        </RequireAuth>
+      ),
+      options: {
+        headerShown: false,
+      },
+    },
+    Support: {
+      screen: (props: any) => (
+        <RequireAuth {...props}>
+          <Support />
         </RequireAuth>
       ),
       options: {
