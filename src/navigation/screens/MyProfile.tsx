@@ -25,11 +25,11 @@ export const MyProfile = () => {
   const { user, isLoading } = useAuth()
   const [isEdit, setIsEdit] = useState(false)
   const initialUser = {
-    name: user?.name,
-    lastname: 'Vadone',
-    phone: '+54 9 11 7366-1897',
-    // lastname: user?.lastname,
-    // phone: user?.phone
+    name: user?.name || 'Invitado',
+    lastname: 'Invitado',
+    phone: '+54 9 11 1234-5678',
+    // lastname: user?.lastname || 'Vadone',
+    // phone: user?.phone || '+54 9 11 7366-1897',
   }
   const [newUser, setNewUser] = useState<EditUser | null>(initialUser)
 
