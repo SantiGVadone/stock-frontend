@@ -13,6 +13,8 @@ const API_URL = 'https://api.vadonedev.com.ar/api'
 interface User {
   id: number
   name: string
+  lastName: string
+  phone: string
   email: string
   stores: Store[]
 }
@@ -86,6 +88,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       const data = await response.json()
+      console.log('Respuesta del Login: ', data)
       guardarToken(data.token)
       guardarStores(data.user.stores)
       setToken(data.token)
